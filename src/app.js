@@ -1,40 +1,16 @@
-// подключение express
 const express = require("express");
-// создаем объект приложения
 const app = express();
 const port = 3000;
 
-//file separation
-const pagesRoute = require("./routes/pages")
-// определяем обработчик для маршрута "/"
-app.get("/", function(request, response){
-     
-    // отправляем ответ
-    response.send("<h2>Привет Express!</h2>");
-});
+const authRoute = require("./routes/auth");
+const usersRoute = require("./routes/users");
+const placesRoute = require("./routes/places")
 app.use(express.json());
-// File separation
-app.use("/",pagesRoute)
-// начинаем прослушивать подключения на 3000 порту
-
-// определяем обработчик для маршрута "/"
-app.get("/", function(req, res){
-    // отправляем ответ
-    res.send("<h2>Привет Express!</h2>");
-});
-//send value using /api?value=1
-app.get("/api",function(req,res){
-    const value = req.query.value
-    res.send(value);
-});
-//send value through url
-app.get("/api/:id",function(req,res){
-    const value = req.params.id
-    res.send(value);
-});
+app.use("/auth/",authRoute)
+app.use("/users/",usersRoute)
+app.use("/objects/",placesRoute)
 // Error handling
 app.get('*', function(req, res){
-    res.status(404).send({error:"Unsupported url"});
+    res.status(404).send({error:"Not Found"});
 });
-// начинаем прослушивать подключения на 3000 порту
-app.listen(port,() => {console.log(`Listening on port:${port}`)});
+app.listen(port,() => {console.log(`Listening on port:${process.env.PORT}`)});
