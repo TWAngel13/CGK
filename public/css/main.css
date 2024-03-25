@@ -1,0 +1,82 @@
+/* FONTS LOAD SECTION */
+
+@font-face { src: url("../fonts/OpenSans-ExtraBold.woff") format("woff"); font-family: "OpenSansEB"; font-weight: 600; font-style: bold; }
+@font-face { src: url("../fonts/OpenSans-Bold.woff") format("woff"); font-family: "OpenSansB"; font-weight: 400; font-style: normal; }
+@font-face { src: url("../fonts/MontserratAlternates-ExtraBold.woff") format("woff"); font-family: "MontserratAlternates"; font-weight: 400; font-style: italic; }
+@font-face { src: url("../fonts/Comfortaa-Bold.woff") format("woff"); font-family: "Comfortaa"; font-weight: 700; font-style: normal; }
+
+.recommend-div
+{
+    border-radius: 10px;
+    background: linear-gradient(180.00deg, rgb(11, 201, 118),rgb(0, 37, 74) 100%);
+    color: rgb(255, 255, 255);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    text-align: center;
+    padding-bottom: 2vh;
+}
+
+.recommend-text
+{
+    font-family: "MontserratAlternates";
+    font-size: 4em;
+}
+
+.recommend-button
+{
+    font-family: "OpenSansEB";
+    border-radius: 10px;
+    background: rgb(11, 201, 118);
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    border: none;
+    color: rgb(255, 255, 255);
+
+}
+
+.news-subtitle
+{
+    font-family: "MontserratAlternates";
+    font-size: xx-large;
+    color: #00254A;
+    margin-left: 5vw;
+
+}
+
+.news-div
+{
+    max-width: fit-content;
+    font-family: "OpenSansEB"; 
+    border-radius: 10px;
+    background: rgb(235, 128, 6);
+    color: rgb(255, 255, 255);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    text-align: left;
+    padding-top: 2vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    padding-bottom: 2vh;
+}
+
+.news-img
+{
+    width: 100%;
+}
+
+.news-title
+{
+    font-size: large;
+    padding-top: 1vh;
+}
+
+.news-text
+{
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    padding-top: 1vh;
+}

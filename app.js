@@ -2,11 +2,10 @@
 const express = require("express");
 // создаем объект приложения
 const app = express();
-// определяем обработчик для маршрута "/"
-app.get("/", function(request, response){
-     
-    // отправляем ответ
-    response.send("<h2>Привет Express!</h2>");
-});
+
+app.use(express.static(__dirname + "/public"));
+ 
+app.use("*", express.static("./public/404.html"));
+
 // начинаем прослушивать подключения на 3000 порту
 app.listen(3000);
