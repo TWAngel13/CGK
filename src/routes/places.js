@@ -2,32 +2,41 @@ const express = require("express");
 const router = express.Router();
 const dbApi = require("../db/db")
 const {isInteger} = require("../sanityCheck");
-const { restart } = require("nodemon");
 module.exports = router;
 ////
+//http://localhost:3000/api/objects/restaurant/id/2
 const places = {
     entertainments:1,
     park:2,
     restaurant:3,
 }
-router.get("/park/:id/",async function(req,res){
+router.get("/park/id/:id/",async function(req,res){
     const objectID = req.params.id
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     await getPlace(res,objectID,startPos,maxSize,places.park)
     
 });
-router.get("/restaurant/:id/",async function(req,res){
+router.get("/restaurant/id/:id/",async function(req,res){
     const objectID = req.params.id
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     await getPlace(res,objectID,startPos,maxSize,places.restaurant)
 });
-router.get("/entertainment/:id/",async function(req,res){
+router.get("/entertainment/id/:id/",async function(req,res){
     const objectID = req.params.id
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     await getPlace(res,objectID,startPos,maxSize,places.entertainments)
+});
+router.get("/restaurant/list",async function(req,res){
+    
+});
+router.get("/entertainment/list",async function(req,res){
+
+});
+router.get("/park/list",async function(req,res){
+
 });
 async function getPlace(res,_objectID,_startPos,_maxPos,typePlace){
     const objectID = Number(_objectID)
@@ -43,11 +52,9 @@ async function getPlace(res,_objectID,_startPos,_maxPos,typePlace){
     }
     const info = await getInfo(objectID,typePlace)
     const reviews = await getReview(objectID,startPos,maxPos,typePlace)
-    const tags = await getTags(objectID,typePlace)
     const message = {
         info:info,
         reviews:reviews,
-        tags:tags
     }
     res.status(200).send(message)
     
@@ -79,16 +86,16 @@ async function getInfo(objectID,typePlace){
             break
     }
 }
-async function getTags(objectID,typePlace){
+async function getAllTags(typePlace){
     switch(typePlace){
         case places.entertainments:
-            return await dbApi.getEntertainmentTags(objectID)
+            return await dbApi.getAllTagsEntertainment()
             break
         case places.park:
-            return await dbApi.getParkTags(objectID)
+            return await dbApi.getAllTagsPark()
             break
         case places.restaurant:
-            return await dbApi.getRestaurantTags(objectID)
+            return await dbApi.getAllTagsRestaurant()
             break
     }
 }

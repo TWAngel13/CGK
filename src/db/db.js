@@ -1,3 +1,4 @@
+
 const pgp = require('pg-promise')(/* options */)
 const db = pgp(process.env.DB_URL)
 
@@ -12,9 +13,9 @@ module.exports = {
     getInfoFoRestaurant,
     getInfoForEntertainment,
     getInfoForPark,
-    getParkTags,
-    getEntertainmentTags,
-    getRestaurantTags,
+    getAllTagsEntertainment,
+    getAllTagsPark,
+    getAllTagsRestaurant,
     userExists,
     restaurantExists,
     parkExists,
@@ -47,15 +48,6 @@ async function getEntertainmentReviews(userID,startPos,maxPos){
 async function getParkReviews(userID,startPos,maxPos){
     return _getReviews(userID,startPos,maxPos,"reviewpark")
 }
-async function getParkTags(objectID){
-    return _getTags(objectID,"tagpark","parkid")
-}
-async function getRestaurantTags(objectID){
-    return _getTags(objectID,"tagrestaurant","restaurantid")
-}
-async function getEntertainmentTags(objectID){
-    return _getTags(objectID,"tagentertainment","entertainmentid")
-}
 async function getReviewsForRestaurant(objectID,startPos,maxPos){
     return _getReviewsForPlace(objectID,startPos,maxPos,"reviewrestaurant")
 }
@@ -86,6 +78,15 @@ async function entertainmentExists(objectID){
 async function restaurantExists(objectID){
     return _exists("restaurant","id",objectID)
 }
+async function getAllTagsRestaurant(){
+    return _getAllTags("restaurant")
+}
+async function getAllTagsPark(){
+    return _getAllTags("park")
+}
+async function getAllTagsEntertainment(){
+    return _getAllTags("entertainment")   
+}
 async function _exists(table,column,value){
     const params = {table:table,column:column,value:value}
     return (await db.one(
@@ -98,23 +99,19 @@ async function _getReviews(userID,startPos,maxPos,tableName){
         userID:userID,
         start:startPos,
         limit:maxPos,
-        table:tableName
-    }
-    return (await db.any(
-        "SELECT * FROM ${table:name} \
-        WHERE userid = ${userID}\
-        LIMIT ${limit} OFFSET ${start}"
-    ,params))
-}
-async function _getTags(objectID,tableName,columnName){
-    const params = {
-        objectID:objectID,
         table:tableName,
-        column:columnName
+        imageTable:_parseToImageFromReview(tableName),
     }
     return (await db.any(
-        "SELECT tag FROM ${table:name} \
-        WHERE ${column:name}=${objectID}"
+        "SELECT\
+            ${table:name}.*,\
+            ARRAY_AGG(${imageTable:name}.id) AS images \
+        FROM ${table:name} \
+        LEFT JOIN ${imageTable:name} \
+        ON ${table:name}.id = ${imageTable:name}.reviewid \
+        WHERE ${table:name}.userid = ${userID} \
+        GROUP BY ${table:name}.id\
+        "
     ,params))
 }
 async function _getReviewsForPlace(objectID,startPos,maxPos,tableName){
@@ -122,22 +119,77 @@ async function _getReviewsForPlace(objectID,startPos,maxPos,tableName){
         objectID:objectID,
         start:startPos,
         limit:maxPos,
-        table:tableName
+        table:tableName,
+        imageTable:_parseToImageFromReview(tableName),
     }
-    return (await db.any(
-        "SELECT * FROM ${table:name} \
-        WHERE objectid = ${objectID}\
-        LIMIT ${limit} OFFSET ${start}"
-    ,params))
+    //sending all binary images in response will slow,so i will send only id`s
+    const reviews = await db.any(
+        "SELECT\
+            ${table:name}.*,\
+            ARRAY_AGG(${imageTable:name}.id) AS images \
+        FROM ${table:name} \
+        LEFT JOIN ${imageTable:name} \
+        ON ${table:name}.id = ${imageTable:name}.reviewid \
+        WHERE ${table:name}.objectid = ${objectID} \
+        GROUP BY ${table:name}.id\
+        "
+    ,params)
+    return reviews
 }
 async function _getInfoForPlace(objectID,tableName){
     const params = {
         objectID:objectID,
+        table:tableName,
+        imageTable:_parseToImageFromPlace(tableName),
+        tagTable:_parseToTag(tableName),
+    }
+    //same thing
+    const info = await db.any(
+        "SELECT \
+            ${table:name}.*,\
+            ARRAY_AGG(DISTINCT ${imageTable:name}.id) AS images, \
+            ARRAY_AGG(DISTINCT ${tagTable:name}.tag) AS tags \
+        FROM ${table:name} \
+        LEFT JOIN ${imageTable:name} \
+        ON ${table:name}.id = ${imageTable:name}.objectid \
+        LEFT JOIN ${tagTable:name} \
+        ON ${table:name}.id = ${tagTable:name}.objectid\
+        WHERE ${table:name}.id = ${objectID} \
+        GROUP BY ${table:name}.id\
+        "
+    ,params)
+    return info
+}
+async function _getAllTags(tableName){
+    const params = {
         table:tableName
     }
-    return (await db.any(
-        "SELECT * FROM ${table:name} \
-        WHERE id = ${objectID}\
-        LIMIT 1"
+    //TODO show only distinct
+    return (await db.one(
+        "SELECT * FROM ${table:name}"
     ,params))
+}
+function _parseToImageFromPlace(tableName){
+    const tablesMap = new Map([
+        ["restaurant","imagesrestaurant"],
+        ["park","imagespark"],
+        ["entertainment","imagesentertainment"]
+    ])
+    return tablesMap.get(tableName)
+}
+function _parseToImageFromReview(tableName){
+    const tablesMap = new Map([
+        ["reviewrestaurant","imagesrestaurantreview"],
+        ["reviewpark","imagesparkreview"],
+        ["reviewentertainment","imagesentertainmentreview"]
+    ])
+    return tablesMap.get(tableName)
+}
+function _parseToTag(tableName){
+    const tablesMap = new Map([
+        ["entertainment","tagentertainment"],
+        ["park","tagpark"],
+        ["restaurant","tagrestaurant"]
+    ])
+    return tablesMap.get(tableName)
 }
