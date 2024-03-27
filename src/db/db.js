@@ -1,3 +1,4 @@
+const { search } = require('../routes/users')
 
 const pgp = require('pg-promise')(/* options */)
 const db = pgp(process.env.DB_URL)
@@ -90,14 +91,14 @@ async function getAllTagsPark(){
 async function getAllTagsEntertainment(){
     return _getAllTags("entertainment")   
 }
-async function getAllRestaurants(startPos,maxPos,sort){
-    return _getAllPlaces("restaurant",startPos,maxPos,sort)
+async function getAllRestaurants(startPos,maxPos,sort,search){
+    return _getAllPlaces("restaurant",startPos,maxPos,sort,search)
 }
-async function getAllParks(startPos,maxPos,sort){
-    return _getAllPlaces("park",startPos,maxPos,sort)
+async function getAllParks(startPos,maxPos,sort,search){
+    return _getAllPlaces("park",startPos,maxPos,sort,search)
 }
-async function getAllEntertainments(startPos,maxPos,sort){
-    return _getAllPlaces("entertainment",startPos,maxPos,sort)
+async function getAllEntertainments(startPos,maxPos,sort,search){
+    return _getAllPlaces("entertainment",startPos,maxPos,sort,search)
 }
 async function _exists(table,column,value){
     const params = {table:table,column:column,value:value}
@@ -175,13 +176,14 @@ async function _getInfoForPlace(objectID,tableName){
     ,params)
     return info
 }
-async function _getAllPlaces(tableName,startPos,maxPos,sort){
+async function _getAllPlaces(tableName,startPos,maxPos,sort,search){
     const params = {
         table:tableName,
         imageTable:_parseToImageFromPlace(tableName),
         start:startPos,
         limit:maxPos,
         sort:sort,
+        search:search,
     }
     const list = await db.one(
         "SELECT \
@@ -193,6 +195,7 @@ async function _getAllPlaces(tableName,startPos,maxPos,sort){
             FROM ${table:name}\
             LEFT JOIN ${imageTable:name}\
             ON ${table:name}.id = ${imageTable:name}.objectid\
+            WHERE ${table:name}.name LIKE '%${search:value}%'\
             GROUP BY ${table:name}.id\
             OFFSET ${start}\
             LIMIT ${limit}\
@@ -205,7 +208,6 @@ async function _getAllTags(tableName){
     const params = {
         tagTable:_parseToTag(tableName)
     }
-    //TODO show only distinct
     return (await db.one(
         "SELECT \
             ARRAY_AGG(DISTINCT ${tagTable:name}.tag) as tags\

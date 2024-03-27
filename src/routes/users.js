@@ -32,7 +32,7 @@ router.get("/id/:id/reviews/parks",async function(req,res){
     const maxSize = req.query.max<100?req.query.max:100
     await getReview(userID,startPos,maxSize,objectsReview.park,res)
 });
-router.get("/search/",async function(req,res){
+router.get("/list",async function(req,res){
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     

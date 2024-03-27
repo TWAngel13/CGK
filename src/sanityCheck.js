@@ -10,7 +10,7 @@ module.exports = {
 }
 //without this sql will die in agony
 function isString(variable){
-    return _compareTypes(variable,variableTypes.Boolean)
+    return _compareTypes(variable,variableTypes.String)
 }
 function isInteger(variable){
     if(isNaN(variable)){
@@ -19,7 +19,7 @@ function isInteger(variable){
     return _compareTypes(variable,variableTypes.Number)
 }
 function isBoolean(variable){
-    return _compareTypes(variable,variableTypes.String)
+    return _compareTypes(variable,variableTypes.Boolean)
 }
 function _compareTypes(variable,type){
     return ((typeof variable == type));

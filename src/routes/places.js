@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const dbApi = require("../db/db")
-const {isInteger} = require("../sanityCheck");
+const {isInteger, isString} = require("../sanityCheck");
 module.exports = router;
 ////
 //http://localhost:3000/api/objects/restaurant/id/2
@@ -41,34 +41,38 @@ router.get("/entertainment/tags",async function(req,res){
 router.get("/restaurant/list",async function(req,res){
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
-    await getListOfPlaces(res,places.restaurant,startPos,maxSize)
+    const search = req.query.search?req.query.search:""
+    await getListOfPlaces(res,places.restaurant,startPos,maxSize,undefined,search)
 });
 router.get("/entertainment/list",async function(req,res){
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
-    await getListOfPlaces(res,places.entertainments,startPos,maxSize)
+    const search = req.query.search?req.query.search:""
+    await getListOfPlaces(res,places.entertainments,startPos,maxSize,undefined,search)
 });
 router.get("/park/list",async function(req,res){
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
-    await getListOfPlaces(res,places.park,startPos,maxSize)
+    const search = req.query.search?req.query.search:""
+    await getListOfPlaces(res,places.park,startPos,maxSize,undefined,search)
 });
-async function getListOfPlaces(res,typePlace,_startPos,_maxPos,sort){
+async function getListOfPlaces(res,typePlace,_startPos,_maxPos,sort,_search){
     const startPos = Number(_startPos)
     const maxPos = Number(_maxPos)
-    if (!isInteger(startPos) || !isInteger(maxPos)){
+    const search = String(_search)
+    if (!isInteger(startPos) || !isInteger(maxPos) || !isString(search)){
         res.status(405).send({error:"Something is wrong"})
         return
     }
     switch(typePlace){
         case places.entertainments:
-            res.status(200).send(await dbApi.getAllEntertainments(startPos,maxPos,sort))
+            res.status(200).send(await dbApi.getAllEntertainments(startPos,maxPos,sort,search))
             return
         case places.park:
-            res.status(200).send(await dbApi.getAllParks(startPos,maxPos,sort))
+            res.status(200).send(await dbApi.getAllParks(startPos,maxPos,sort,search))
             return
         case places.restaurant:
-            res.status(200).send(await dbApi.getAllRestaurants(startPos,maxPos,sort))
+            res.status(200).send(await dbApi.getAllRestaurants(startPos,maxPos,sort,search))
             return
     }
 }
