@@ -12,25 +12,30 @@ const objectsReview = {
 
 http://localhost:3000/users/<ID>/reviews/<NAME>   optional --> ?start=0&max=10000
 
-router.get("/:id/reviews/restaurants",async function(req,res){
+router.get("/id/:id/reviews/restaurants",async function(req,res){
     const userID = req.params.id
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     await getReview(userID,startPos,maxSize,objectsReview.restaurant,res)
     
 });
-router.get("/:id/reviews/entertainments",async function(req,res){
+router.get("/id/:id/reviews/entertainments",async function(req,res){
     const userID = req.params.id
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     await getReview(userID,startPos,maxSize,objectsReview.entertainments,res)
     
 });
-router.get("/:id/reviews/parks",async function(req,res){
+router.get("/id/:id/reviews/parks",async function(req,res){
     const userID = req.params.id
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
     await getReview(userID,startPos,maxSize,objectsReview.park,res)
+});
+router.get("/search/",async function(req,res){
+    const startPos = req.query.start?req.query.start:0
+    const maxSize = req.query.max<100?req.query.max:100
+    
 });
 async function getReview(_userID,_startPos,_maxSize,typePlace,res){
     const userID = Number(_userID)

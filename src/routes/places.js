@@ -29,15 +29,49 @@ router.get("/entertainment/id/:id/",async function(req,res){
     const maxSize = req.query.max<100?req.query.max:100
     await getPlace(res,objectID,startPos,maxSize,places.entertainments)
 });
+router.get("/park/tags",async function(req,res){
+    res.status(200).send(await getAllTags(places.park))
+});
+router.get("/restaurant/tags",async function(req,res){
+    res.status(200).send(await getAllTags(places.restaurant))
+});
+router.get("/entertainment/tags",async function(req,res){
+    res.status(200).send(await getAllTags(placeExists.entertainments))
+});
 router.get("/restaurant/list",async function(req,res){
-    
+    const startPos = req.query.start?req.query.start:0
+    const maxSize = req.query.max<100?req.query.max:100
+    await getListOfPlaces(res,places.restaurant,startPos,maxSize)
 });
 router.get("/entertainment/list",async function(req,res){
-
+    const startPos = req.query.start?req.query.start:0
+    const maxSize = req.query.max<100?req.query.max:100
+    await getListOfPlaces(res,places.entertainments,startPos,maxSize)
 });
 router.get("/park/list",async function(req,res){
-
+    const startPos = req.query.start?req.query.start:0
+    const maxSize = req.query.max<100?req.query.max:100
+    await getListOfPlaces(res,places.park,startPos,maxSize)
 });
+async function getListOfPlaces(res,typePlace,_startPos,_maxPos,sort){
+    const startPos = Number(_startPos)
+    const maxPos = Number(_maxPos)
+    if (!isInteger(startPos) || !isInteger(maxPos)){
+        res.status(405).send({error:"Something is wrong"})
+        return
+    }
+    switch(typePlace){
+        case places.entertainments:
+            res.status(200).send(await dbApi.getAllEntertainments(startPos,maxPos,sort))
+            return
+        case places.park:
+            res.status(200).send(await dbApi.getAllParks(startPos,maxPos,sort))
+            return
+        case places.restaurant:
+            res.status(200).send(await dbApi.getAllRestaurants(startPos,maxPos,sort))
+            return
+    }
+}
 async function getPlace(res,_objectID,_startPos,_maxPos,typePlace){
     const objectID = Number(_objectID)
     const startPos = Number(_startPos)

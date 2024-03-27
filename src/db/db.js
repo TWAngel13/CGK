@@ -16,6 +16,9 @@ module.exports = {
     getAllTagsEntertainment,
     getAllTagsPark,
     getAllTagsRestaurant,
+    getAllEntertainments,
+    getAllParks,
+    getAllRestaurants,
     userExists,
     restaurantExists,
     parkExists,
@@ -87,6 +90,15 @@ async function getAllTagsPark(){
 async function getAllTagsEntertainment(){
     return _getAllTags("entertainment")   
 }
+async function getAllRestaurants(startPos,maxPos,sort){
+    return _getAllPlaces("restaurant",startPos,maxPos,sort)
+}
+async function getAllParks(startPos,maxPos,sort){
+    return _getAllPlaces("park",startPos,maxPos,sort)
+}
+async function getAllEntertainments(startPos,maxPos,sort){
+    return _getAllPlaces("entertainment",startPos,maxPos,sort)
+}
 async function _exists(table,column,value){
     const params = {table:table,column:column,value:value}
     return (await db.one(
@@ -120,9 +132,9 @@ async function _getReviewsForPlace(objectID,startPos,maxPos,tableName){
         start:startPos,
         limit:maxPos,
         table:tableName,
-        imageTable:_parseToImageFromReview(tableName),
+        imageTable:_parseToImageFromReview(tableName), 
     }
-    //sending all binary images in response will slow,so i will send only id`s
+    //sending all binary images in single response too slow,so i will send only id`s
     const reviews = await db.any(
         "SELECT\
             ${table:name}.*,\
@@ -142,31 +154,62 @@ async function _getInfoForPlace(objectID,tableName){
         table:tableName,
         imageTable:_parseToImageFromPlace(tableName),
         tagTable:_parseToTag(tableName),
+        workingTime: _parseToTime(tableName),
     }
     //same thing
-    const info = await db.any(
+    const info = await db.one(
         "SELECT \
             ${table:name}.*,\
             ARRAY_AGG(DISTINCT ${imageTable:name}.id) AS images, \
-            ARRAY_AGG(DISTINCT ${tagTable:name}.tag) AS tags \
+            JSON_AGG(DISTINCT ${workingTime:name}) AS workingHours\
         FROM ${table:name} \
         LEFT JOIN ${imageTable:name} \
         ON ${table:name}.id = ${imageTable:name}.objectid \
         LEFT JOIN ${tagTable:name} \
         ON ${table:name}.id = ${tagTable:name}.objectid\
+        LEFT JOIN ${workingTime:name} \
+        ON ${table:name}.id = ${workingTime:name}.objectid\
         WHERE ${table:name}.id = ${objectID} \
         GROUP BY ${table:name}.id\
         "
     ,params)
     return info
 }
+async function _getAllPlaces(tableName,startPos,maxPos,sort){
+    const params = {
+        table:tableName,
+        imageTable:_parseToImageFromPlace(tableName),
+        start:startPos,
+        limit:maxPos,
+        sort:sort,
+    }
+    const list = await db.one(
+        "SELECT \
+            JSON_AGG(DISTINCT x.*) as objects\
+        FROM \
+            (SELECT \
+                ${table:name}.*,\
+                ARRAY_AGG(DISTINCT ${imageTable:name}.id) AS images\
+            FROM ${table:name}\
+            LEFT JOIN ${imageTable:name}\
+            ON ${table:name}.id = ${imageTable:name}.objectid\
+            GROUP BY ${table:name}.id\
+            OFFSET ${start}\
+            LIMIT ${limit}\
+        ) AS x\
+        "
+    ,params)
+    return list
+}
 async function _getAllTags(tableName){
     const params = {
-        table:tableName
+        tagTable:_parseToTag(tableName)
     }
     //TODO show only distinct
     return (await db.one(
-        "SELECT * FROM ${table:name}"
+        "SELECT \
+            ARRAY_AGG(DISTINCT ${tagTable:name}.tag) as tags\
+        FROM ${tagTable:name}"
     ,params))
 }
 function _parseToImageFromPlace(tableName){
@@ -182,6 +225,14 @@ function _parseToImageFromReview(tableName){
         ["reviewrestaurant","imagesrestaurantreview"],
         ["reviewpark","imagesparkreview"],
         ["reviewentertainment","imagesentertainmentreview"]
+    ])
+    return tablesMap.get(tableName)
+}
+function _parseToTime(tableName){
+    const tablesMap = new Map([
+        ["entertainment","businesshoursentertainment"],
+        ["park","businesshourspark"],
+        ["restaurant","businesshoursrestaurant"]
     ])
     return tablesMap.get(tableName)
 }
