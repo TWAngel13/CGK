@@ -1,5 +1,3 @@
-const { search } = require('../routes/users')
-
 const pgp = require('pg-promise')(/* options */)
 const db = pgp(process.env.DB_URL)
 
@@ -91,14 +89,14 @@ async function getAllTagsPark(){
 async function getAllTagsEntertainment(){
     return _getAllTags("entertainment")   
 }
-async function getAllRestaurants(startPos,maxPos,sort,search){
-    return _getAllPlaces("restaurant",startPos,maxPos,sort,search)
+async function getAllRestaurants(startPos,maxPos,sort,search,tags){
+    return _getAllPlaces("restaurant",startPos,maxPos,sort,search,tags)
 }
-async function getAllParks(startPos,maxPos,sort,search){
-    return _getAllPlaces("park",startPos,maxPos,sort,search)
+async function getAllParks(startPos,maxPos,sort,search,tags){
+    return _getAllPlaces("park",startPos,maxPos,sort,search,tags)
 }
-async function getAllEntertainments(startPos,maxPos,sort,search){
-    return _getAllPlaces("entertainment",startPos,maxPos,sort,search)
+async function getAllEntertainments(startPos,maxPos,sort,search,tags){
+    return _getAllPlaces("entertainment",startPos,maxPos,sort,search,tags)
 }
 async function _exists(table,column,value){
     const params = {table:table,column:column,value:value}
@@ -162,7 +160,8 @@ async function _getInfoForPlace(objectID,tableName){
         "SELECT \
             ${table:name}.*,\
             ARRAY_AGG(DISTINCT ${imageTable:name}.id) AS images, \
-            JSON_AGG(DISTINCT ${workingTime:name}) AS workingHours\
+            JSON_AGG(DISTINCT ${workingTime:name}) AS workingHours, \
+            ARRAY_AGG(DISTINCT ${tagTable:name}.tag) AS tags \
         FROM ${table:name} \
         LEFT JOIN ${imageTable:name} \
         ON ${table:name}.id = ${imageTable:name}.objectid \
@@ -176,14 +175,16 @@ async function _getInfoForPlace(objectID,tableName){
     ,params)
     return info
 }
-async function _getAllPlaces(tableName,startPos,maxPos,sort,search){
+async function _getAllPlaces(tableName,startPos,maxPos,sort,search,tags){
     const params = {
         table:tableName,
         imageTable:_parseToImageFromPlace(tableName),
+        tagTable:_parseToTag(tableName),
         start:startPos,
         limit:maxPos,
         sort:sort,
         search:search,
+        tags:tags,
     }
     const list = await db.one(
         "SELECT \
@@ -195,13 +196,27 @@ async function _getAllPlaces(tableName,startPos,maxPos,sort,search){
             FROM ${table:name}\
             LEFT JOIN ${imageTable:name}\
             ON ${table:name}.id = ${imageTable:name}.objectid\
-            WHERE ${table:name}.name LIKE '%${search:value}%'\
+            LEFT JOIN ${tagTable:name} \
+            ON ${table:name}.id = ${tagTable:name}.objectid \
+            WHERE \
+                ${table:name}.name LIKE '%${search:value}%'\
+                AND \
+                    (COALESCE(${tags:list},'') = ''\
+                    OR \
+                    ${tagTable:name}.tag IN (${tags:list})) \
             GROUP BY ${table:name}.id\
+            HAVING \
+                CASE \
+                    WHEN ${tags:list} IS NOT NULL THEN \
+                        COUNT(DISTINCT ${tagTable:name}.tag) = ARRAY_LENGTH(ARRAY[${tags:list}],1)\
+                    ELSE TRUE \
+                END \
             OFFSET ${start}\
             LIMIT ${limit}\
         ) AS x\
         "
     ,params)
+    //HAVING COUNT(DISTINCT ${tagTable:name}.tag) = ARRAY_LENGTH(ARRAY[${tags:list}],1)\
     return list
 }
 async function _getAllTags(tableName){
