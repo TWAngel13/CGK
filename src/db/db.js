@@ -19,10 +19,21 @@ module.exports = {
     getAllParks,
     getAllRestaurants,
     userExists,
+    listUsers,
     restaurantExists,
     parkExists,
     entertainmentExists,
-
+    getImagePlaceEntertainment,
+    getImagePlacePark,
+    getImagePlaceRestaurant,
+    getImageReviewEntertainment,
+    getImageReviewPark,
+    getImageReviewRestaurant,
+}
+const places = {
+    park: "park",
+    restaurant : "restaurant",
+    entertainment : "entertainment",
 }
 async function addUser(name,email){
     if(await _exists("users","email",email)){
@@ -42,64 +53,140 @@ async function addUser(name,email){
     }
 }
 async function getRestaurantsReviews(userID,startPos,maxPos){
-    return _getReviews(userID,startPos,maxPos,"reviewrestaurant")
+    return _getReviews(userID,startPos,maxPos,places.restaurant)
 }
 async function getEntertainmentReviews(userID,startPos,maxPos){
-    return _getReviews(userID,startPos,maxPos,"reviewentertainment")
+    return _getReviews(userID,startPos,maxPos,places.entertainment)
 }
 async function getParkReviews(userID,startPos,maxPos){
-    return _getReviews(userID,startPos,maxPos,"reviewpark")
+    return _getReviews(userID,startPos,maxPos,places.park)
 }
 async function getReviewsForRestaurant(objectID,startPos,maxPos){
-    return _getReviewsForPlace(objectID,startPos,maxPos,"reviewrestaurant")
+    return _getReviewsForPlace(objectID,startPos,maxPos,places.restaurant)
 }
 async function getReviewsForEntertainment(objectID,startPos,maxPos){
-    return _getReviewsForPlace(objectID,startPos,maxPos,"reviewentertainment")
+    return _getReviewsForPlace(objectID,startPos,maxPos,places.entertainment)
 }
 async function getReviewsForPark(objectID,startPos,maxPos){
-    return _getReviewsForPlace(objectID,startPos,maxPos,"reviewpark")
+    return _getReviewsForPlace(objectID,startPos,maxPos,places.park)
 }
 async function getInfoForPark(objectID){
-    return _getInfoForPlace(objectID,"park")
+    return _getInfoForPlace(objectID,places.park)
 }
 async function getInfoFoRestaurant(objectID){
-    return _getInfoForPlace(objectID,"restaurant")
+    return _getInfoForPlace(objectID,places.restaurant)
 }
 async function getInfoForEntertainment(objectID){
-    return _getInfoForPlace(objectID,"entertainment")
+    return _getInfoForPlace(objectID,places.entertainment)
 }
 async function userExists(userID){
     return _exists("users","id",userID)
 }
 async function parkExists(objectID){
-    return _exists("park","id",objectID)
+    return _exists(places.park,"id",objectID)
 }
 async function entertainmentExists(objectID){
-    return _exists("entertainment","id",objectID)
+    return _exists(places.entertainment,"id",objectID)
 }
 async function restaurantExists(objectID){
-    return _exists("restaurant","id",objectID)
+    return _exists(places.restaurant,"id",objectID)
 }
 async function getAllTagsRestaurant(){
-    return _getAllTags("restaurant")
+    return _getAllTags(places.restaurant)
 }
 async function getAllTagsPark(){
-    return _getAllTags("park")
+    return _getAllTags(places.park)
 }
 async function getAllTagsEntertainment(){
-    return _getAllTags("entertainment")   
+    return _getAllTags(places.entertainment)   
 }
 async function getAllRestaurants(startPos,maxPos,sort,search,tags){
-    return _getAllPlaces("restaurant",startPos,maxPos,sort,search,tags)
+    return _getAllPlaces(places.restaurant,startPos,maxPos,sort,search,tags)
 }
 async function getAllParks(startPos,maxPos,sort,search,tags){
-    return _getAllPlaces("park",startPos,maxPos,sort,search,tags)
+    return _getAllPlaces(places.park,startPos,maxPos,sort,search,tags)
 }
 async function getAllEntertainments(startPos,maxPos,sort,search,tags){
-    return _getAllPlaces("entertainment",startPos,maxPos,sort,search,tags)
+    return _getAllPlaces(places.entertainment,startPos,maxPos,sort,search,tags)
+}
+async function getImagePlaceRestaurant(id){
+    return _getImagePlace(id,places.restaurant)   
+}
+async function getImagePlacePark(id){
+    return _getImagePlace(id,places.park)   
+}
+async function getImagePlaceEntertainment(id){
+    return _getImagePlace(id,places.entertainment)   
+}
+async function getImageReviewRestaurant(id){
+    return _getImageReview(id,places.restaurant)   
+}
+async function getImageReviewPark(id){
+    return _getImageReview(id,places.park)   
+}
+async function getImageReviewEntertainment(id){
+    return _getImageReview(id,places.entertainment)   
+}
+async function listUsers(startPos,maxPos){
+    const params = {
+        start:startPos,
+        limit:maxPos
+    }
+    return (await db.oneOrNone(
+        "SELECT \
+            JSON_AGG(DISTINCT x.*) as users\
+        FROM (\
+            SELECT * FROM users\
+            OFFSET ${start} \
+            LIMIT ${limit} \
+        ) AS x\
+        "
+    ,params))
+}
+async function _getImagePlace(id,tableName){
+    const params = {
+        table:_parseToImageFromPlace(tableName),
+        imageID:id
+    }
+    const image = (await db.oneOrNone(
+        "SELECT ${table:name}.image\
+        FROM ${table:name} \
+        WHERE id = ${imageID} \
+        LIMIT 1 \
+        "
+    ,params))
+    if(image){
+        return image.image
+    }
+    else{
+        return null
+    }
+}
+async function _getImageReview(id,tableName){
+    const params = {
+        table:_parseToImageFromReview(tableName),
+        imageID:id
+    }
+    const image = (await db.oneOrNone(
+        "SELECT ${table:name}.image\
+        FROM ${table:name} \
+        WHERE id = ${imageID} \
+        LIMIT 1 \
+        "
+    ,params))
+    if(image){
+        return image.image
+    }
+    else{
+        return null
+    }
 }
 async function _exists(table,column,value){
-    const params = {table:table,column:column,value:value}
+    const params = {
+        table:table,
+        column:column,
+        value:value
+    }
     return (await db.one(
         "SELECT EXISTS(SELECT 1 FROM ${table:name}\
         WHERE ${column:name}=${value})"
@@ -110,7 +197,7 @@ async function _getReviews(userID,startPos,maxPos,tableName){
         userID:userID,
         start:startPos,
         limit:maxPos,
-        table:tableName,
+        table:_parseToReviewTable(tableName),
         imageTable:_parseToImageFromReview(tableName),
     }
     return (await db.any(
@@ -130,7 +217,7 @@ async function _getReviewsForPlace(objectID,startPos,maxPos,tableName){
         objectID:objectID,
         start:startPos,
         limit:maxPos,
-        table:tableName,
+        table:_parseToReviewTable(tableName),
         imageTable:_parseToImageFromReview(tableName), 
     }
     //sending all binary images in single response too slow,so i will send only id`s
@@ -216,7 +303,6 @@ async function _getAllPlaces(tableName,startPos,maxPos,sort,search,tags){
         ) AS x\
         "
     ,params)
-    //HAVING COUNT(DISTINCT ${tagTable:name}.tag) = ARRAY_LENGTH(ARRAY[${tags:list}],1)\
     return list
 }
 async function _getAllTags(tableName){
@@ -239,9 +325,9 @@ function _parseToImageFromPlace(tableName){
 }
 function _parseToImageFromReview(tableName){
     const tablesMap = new Map([
-        ["reviewrestaurant","imagesrestaurantreview"],
-        ["reviewpark","imagesparkreview"],
-        ["reviewentertainment","imagesentertainmentreview"]
+        ["restaurant","imagesrestaurantreview"],
+        ["park","imagesparkreview"],
+        ["entertainment","imagesentertainmentreview"]
     ])
     return tablesMap.get(tableName)
 }
@@ -258,6 +344,30 @@ function _parseToTag(tableName){
         ["entertainment","tagentertainment"],
         ["park","tagpark"],
         ["restaurant","tagrestaurant"]
+    ])
+    return tablesMap.get(tableName)
+}
+function _parseToReviewTable(tableName){
+    const tablesMap = new Map([
+        ["entertainment","reviewentertainment"],
+        ["park","reviewpark"],
+        ["restaurant","reviewrestaurant"]
+    ])
+    return tablesMap.get(tableName);
+}
+function _parseToImagePlace(tableName){
+    const tablesMap = new Map([
+        ["entertainment","imagesentertainment"],
+        ["park","imagespark"],
+        ["restaurant","imagesrestaurant"]
+    ])
+    return tablesMap.get(tableName)
+}
+function _parseToImageReview(){
+    const tablesMap = new Map([
+        ["entertainment","imagesentertainmentreview"],
+        ["park","imagesparkreview"],
+        ["restaurant","imagesrestaurantreview"]
     ])
     return tablesMap.get(tableName)
 }
