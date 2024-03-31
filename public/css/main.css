@@ -80,3 +80,72 @@
     font-size: medium;
     padding-top: 1vh;
 }
+
+.entertainment-div
+{
+    height: 25vh;
+    width: 86vw;
+    font-family: "OpenSansEB"; 
+    border-radius: 10px;
+    background: rgb(235, 128, 6);
+    color: rgb(255, 255, 255);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding-top: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 2vh;
+}
+
+.entertainment-img
+{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    display: inline-block;
+}
+
+.entertainment-title
+{
+    font-size: large;
+    padding-top: 1vh;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.entertainment-text
+{
+    height: 80%;
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    padding-top: 1vh;
+    overflow: hidden;
+}
+
+.entertainment-text-block
+{
+    vertical-align: top;
+    width: 45%;
+    height: 100%;
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    display: inline-block;
+    position: relative;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.favorite-icon
+{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 10px;
+    right: 10px;
+}

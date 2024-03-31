@@ -15,4 +15,7 @@ app.use("/api/images/",imagesRoute)
 app.get('/api/*', function(req, res){
     res.status(404).send({error:"Not Found"});
 });
+app.use(express.static(__dirname + "./../public"));
+app.use("*", express.static(__dirname + "./../public/404.html"));
+
 app.listen(port,() => {console.log(`Listening on port:${process.env.PORT}`)});
