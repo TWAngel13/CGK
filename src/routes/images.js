@@ -9,11 +9,6 @@ const places = {
     park:2,
     restaurant:3,
 }
-router.get("/reviews/restaurant/",async function(req,res){
-    const startPos = req.query.start?req.query.start:0
-    const maxSize = req.query.max<100?req.query.max:100
-    await getAllList(res,startPos,maxSize)
-});
 router.get("/reviews/restaurant/:id/",async function(req,res){
     const id = req.params.id
     await getImageReview(id,places.restaurant,res)

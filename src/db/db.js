@@ -230,6 +230,8 @@ async function _getReviewsForPlace(objectID,startPos,maxPos,tableName){
         ON ${table:name}.id = ${imageTable:name}.reviewid \
         WHERE ${table:name}.objectid = ${objectID} \
         GROUP BY ${table:name}.id\
+        OFFSET ${start}\
+        LIMIT ${limit}\
         "
     ,params)
     return reviews

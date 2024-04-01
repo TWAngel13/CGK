@@ -1,39 +1,9 @@
-async function getEntertainments()
-{
-    const response = await fetch("/api/objects/restaurant/list", {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-
-async function getImageForRestaurant(id)
-{
-    const response = await fetch("/api/images/places/restaurant/" + id, {
-        method: "GET",
-        headers: { "Accept": "image/png" }
-    });
-    if (response.ok === true)
-    {
-        return await response.blob();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
+import * as api from "./api.js"
 
 async function init()
 {
     var objectsDiv = document.getElementById('objects-list-div');
-    for(const p of (await getEntertainments()).objects.reverse())
+    for(const p of (await api.getEntertainments()).objects.reverse())
     {
         var objectDiv = document.createElement('div');
         var leftBlockDiv = document.createElement('div');
@@ -87,5 +57,4 @@ async function init()
         objectsDiv.appendChild(objectDiv);
     }
 }
-
 init()
