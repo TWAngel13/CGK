@@ -141,6 +141,126 @@
     margin-right: 1%;
 }
 
+.park-div
+{
+    height: 25vh;
+    width: 86vw;
+    font-family: "OpenSansEB"; 
+    border-radius: 10px;
+    background: #0BC976;
+    color: rgb(255, 255, 255);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding-top: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 2vh;
+}
+
+.park-img
+{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    display: inline-block;
+}
+
+.park-title
+{
+    font-size: large;
+    padding-top: 1vh;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.park-text
+{
+    height: 80%;
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    padding-top: 1vh;
+    overflow: hidden;
+}
+
+.park-text-block
+{
+    vertical-align: top;
+    width: 45%;
+    height: 100%;
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    display: inline-block;
+    position: relative;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.restaurant-div
+{
+    height: 25vh;
+    width: 86vw;
+    font-family: "OpenSansEB"; 
+    border-radius: 10px;
+    background: #00254A;
+    color: rgb(255, 255, 255);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding-top: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 2vh;
+}
+
+.restaurant-img
+{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    display: inline-block;
+}
+
+.restaurant-title
+{
+    font-size: large;
+    padding-top: 1vh;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.restaurant-text
+{
+    height: 80%;
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    text-wrap: pretty;
+    word-wrap: break-word;
+    padding-top: 1vh;
+    overflow: hidden;
+}
+
+.restaurant-text-block
+{
+    vertical-align: top;
+    width: 45%;
+    height: 100%;
+    font-family: "OpenSansB"; 
+    font-size: medium;
+    display: inline-block;
+    position: relative;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
 .favorite-icon
 {
     position: absolute;
