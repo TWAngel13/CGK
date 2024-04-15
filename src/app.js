@@ -13,7 +13,7 @@ app.use("/api/objects/",placesRoute)
 app.use("/api/images/",imagesRoute)
 // Error handling
 app.get('/api/*', function(req, res){
-    res.status(404).send({error:"Not Found"});
+    res.status(404).send({error:"Url Not Found"});
 });
 app.use(express.static(__dirname + "./../public"));
 app.use("*", express.static(__dirname + "./../public/404.html"));

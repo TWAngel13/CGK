@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const dbApi = require("../db/db")
+const User = require("../db/user")
+const {isInteger, isString, isArrayOfStrings} = require("../sanityCheck");
 module.exports = router;
 //http://localhost:3000/signup?name=122232&mail=22114@idk.ru
 
 router.get("/signup",function(req,res){
-    const userName = req.query.name.toString()
-    const userMail = req.query.mail.toString()
-    if(!userMail || !userName){
+    const userName = String(req.query.name)
+    const userMail = String(req.query.mail)
+    if(!isString(userMail) || !isString(userName)){
         res.status(400).send({error:"Some of parameters are missing"})
+        return;
     }
-    const result = dbApi.addUser(userName,userMail).then((result)=>{
+    const result = User.createUser(userName,userMail).then((result)=>{
         res.status(200).send({result:result});
     });
 });

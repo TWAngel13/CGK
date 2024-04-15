@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const dbApi = require("../db/db")
+const Restaurant = require("../db/restaurant")
+const Entertainment = require("../db/entertainment")
+const Park = require("../db/park")
 const {isInteger, isString, isArrayOfStrings} = require("../sanityCheck");
 module.exports = router;
 ////
@@ -43,17 +45,17 @@ async function getImageReview(_id,typePlace,res){
     switch(typePlace){
         case places.entertainments:
             res.status(200).setHeader('content-type', 'image/png').send(
-                await dbApi.getImageReviewEntertainment(id)
+                await Entertainment.getImageFromReview(id)
             )
             return
         case places.park:
             res.status(200).setHeader('content-type', 'image/png').send(
-                await dbApi.getImageReviewPark(id)
+                await Park.getImageFromReview(id)
             )
             return
         case places.restaurant:
             res.status(200).setHeader('content-type', 'image/png').send(
-                await dbApi.getImageReviewRestaurant(id)
+                await Restaurant.getImageFromReview(id)
             )
             return
     }
@@ -67,17 +69,17 @@ async function getImagePlace(_id,typePlace,res){
     switch(typePlace){
         case places.entertainments:
             res.status(200).setHeader('content-type', 'image/png').send(
-                await dbApi.getImagePlaceEntertainment(id)
+                await Entertainment.getImage(id)
             )
             return
         case places.park:
             res.status(200).setHeader('content-type', 'image/png').send(
-                await dbApi.getImagePlacePark(id)
+                await Park.getImage(id)
             )
             return
         case places.restaurant:
             res.status(200).setHeader('content-type', 'image/png').send(
-                await dbApi.getImagePlaceRestaurant(id)
+                await Restaurant.getImage(id)
             )
             return
     }

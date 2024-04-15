@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const dbApi = require("../db/db")
+const User = require("../db/user")
 const {isInteger} = require("../sanityCheck");
 module.exports = router;
 ////
@@ -44,7 +44,7 @@ async function getAllList(res,_startPos,_maxSize){
         res.status(405).send({error:"Something is wrong"})
         return
     }
-    dbApi.listUsers(startPos,maxSize).then((result)=>{res.status(200).send(result)})
+    User.getAllUsers(startPos,maxSize).then((result)=>{res.status(200).send(result)})
 }   
 async function getReview(_userID,_startPos,_maxSize,typePlace,res){
     const userID = Number(_userID)
@@ -54,23 +54,23 @@ async function getReview(_userID,_startPos,_maxSize,typePlace,res){
         res.status(405).send({error:"Something is wrong"})
         return
     }
-    if(!await dbApi.userExists(userID)){
+    if(!await User.exists(userID)){
         res.status(404).send({error:"User doesn't exists"})
         return;
     }
     switch(typePlace){
         case objectsReview.entertainments:
-            dbApi.getEntertainmentReviews(userID,startPos,maxSize).then((result)=>{
+            User.getEntertainmentReviews(userID,startPos,maxSize).then((result)=>{
                 res.status(200).send({reviews:result})
             })
             break
         case objectsReview.park:
-            dbApi.getParkReviews(userID,startPos,maxSize).then((result)=>{
+            User.getParkReviews(userID,startPos,maxSize).then((result)=>{
                 res.status(200).send({reviews:result})
             })
             break
         case objectsReview.restaurant:
-            dbApi.getRestaurantsReviews(userID,startPos,maxSize).then((result)=>{
+            User.getRestaurantsReviews(userID,startPos,maxSize).then((result)=>{
                 res.status(200).send({reviews:result})
             })
             break
