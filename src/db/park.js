@@ -1,5 +1,5 @@
 const AbstractPlaceClass = require("./abstractPlace")
 class Park extends AbstractPlaceClass{
-    static tableName = "restaurant"
+    static tableName = "park"
 }
 module.exports = Park
