@@ -4,12 +4,12 @@ const port = 3000;
 
 const authRoute = require("./routes/auth");
 const usersRoute = require("./routes/users");
-const placesRoute = require("./routes/places");
+const objectsRoute = require("./routes/objects");
 const imagesRoute = require("./routes/images")
 app.use(express.json());
 app.use("/api/auth/",authRoute)
 app.use("/api/users/",usersRoute)
-app.use("/api/objects/",placesRoute)
+app.use("/api/objects/",objectsRoute)
 app.use("/api/images/",imagesRoute)
 // Error handling
 app.get('/api/*', function(req, res){
