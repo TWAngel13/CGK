@@ -1,58 +1,13 @@
-//// places
-export async function getEntertainments(
+//// objects
+export async function getObjectsList(
     searchString = undefined,
     startPos = undefined,
     maxPlaces = undefined,
     tags = []
-)
-{
+){
     const params = [searchString,startPos,maxPlaces,tags];
     const paramsName = ["search","start","max","tags"];
-    const response = await fetch("/api/objects/entertainment/list" +  _paramsToStr(params,paramsName), {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-export async function getRestaurants(
-    searchString = undefined,
-    startPos = undefined,
-    maxPlaces = undefined,
-    tags = []
-)
-{
-    const params = [searchString,startPos,maxPlaces,tags];
-    const paramsName = ["search","start","max","tags"];
-    const response = await fetch("/api/objects/restaurant/list" +  _paramsToStr(params,paramsName), {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-export async function getParks(
-    searchString = undefined,
-    startPos = undefined,
-    maxPlaces = undefined,
-    tags = []
-)
-{
-    const params = [searchString,startPos,maxPlaces,tags];
-    const paramsName = ["search","start","max","tags"];
-    const response = await fetch("/api/objects/park/list" +  _paramsToStr(params,paramsName), {
+    const response = await fetch("/api/objects/list" +  _paramsToStr(params,paramsName), {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
@@ -66,12 +21,10 @@ export async function getParks(
     }
 }
 
-
-
-export async function getRestaurantData(id,startPosReviews=undefined,maxReviews=undefined) {
+export async function getObjectInfo(id,startPosReviews=undefined,maxReviews=undefined) {
     const params = [startPosReviews,maxReviews];
     const paramsName = ["start","max"];
-    const response = await fetch("/api/objects/restaurant/id/" + id + _paramsToStr(params,paramsName), {
+    const response = await fetch("/api/objects/id/" + id + _paramsToStr(params,paramsName), {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
@@ -84,10 +37,8 @@ export async function getRestaurantData(id,startPosReviews=undefined,maxReviews=
         console.log(response);
     }
 }
-export async function getEntertainmentData(id,startPosReviews=undefined,maxReviews=undefined) {
-    const params = [startPosReviews,maxReviews];
-    const paramsName = ["start","max"];
-    const response = await fetch("/api/objects/entertainment/id/" + id + _paramsToStr(params,paramsName), {
+export async function getAllTags() {
+    const response = await fetch("/api/objects/tags", {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
@@ -100,52 +51,8 @@ export async function getEntertainmentData(id,startPosReviews=undefined,maxRevie
         console.log(response);
     }
 }
-export async function getParkData(id,startPosReviews=undefined,maxReviews=undefined) {
-    const params = [startPosReviews,maxReviews];
-    const paramsName = ["start","max"];
-    const response = await fetch("/api/objects/park/id/" + id + _paramsToStr(params,paramsName), {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-export async function getParkTags() {
-    const response = await fetch("/api/objects/park/tags", {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-export async function getRestaurantTags() {
-    const response = await fetch("/api/objects/restaurant/tags", {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-export async function getEntertainmentTags() {
-    const response = await fetch("/api/objects/entertainment/tags", {
+export async function getAllTagsByID(id){
+    const response = await fetch("/api/objects/tagsID/" + id, {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
@@ -159,10 +66,27 @@ export async function getEntertainmentTags() {
     }
 }
 //// users
-export async function getUserRestaurantReviews(id,startPosReviews=undefined,maxReviews=undefined) {
+export async function getUserInfo(id,token = undefined) {
+    const response = await fetch(`/api/users/id/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json","Accept": "application/json" },
+        body: JSON.stringify({
+            token:token
+          })
+    });
+    if (response.ok === true)
+    {
+        return await response.json();
+    }
+    else
+    {
+        console.log(response);
+    }
+}
+export async function getUserReviews(id,startPosReviews=undefined,maxReviews=undefined) {
     const params = [startPosReviews,maxReviews];
     const paramsName = ["start","max"];
-    const response = await fetch(`/api/users/id/${id}/reviews/restaurant`+ _paramsToStr(params,paramsName), {
+    const response = await fetch(`/api/users/id/${id}/reviews`+ _paramsToStr(params,paramsName), {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
@@ -175,28 +99,15 @@ export async function getUserRestaurantReviews(id,startPosReviews=undefined,maxR
         console.log(response);
     }
 }
-export async function getUserEntertainmentReviews(id,startPosReviews=undefined,maxReviews=undefined) {
+export async function getUserFavourites(id,token,startPosReviews=undefined,maxReviews=undefined) {
     const params = [startPosReviews,maxReviews];
     const paramsName = ["start","max"];
-    const response = await fetch(`/api/users/id/${id}/reviews/entertainment`+ _paramsToStr(params,paramsName), {
+    const response = await fetch(`/api/users/id/${id}/favourites`+ _paramsToStr(params,paramsName), {
         method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true)
-    {
-        return await response.json();
-    }
-    else
-    {
-        console.log(response);
-    }
-}
-export async function getUserParkReviews(id,startPosReviews=undefined,maxReviews=undefined) {
-    const params = [startPosReviews,maxReviews];
-    const paramsName = ["start","max"];
-    const response = await fetch(`/api/users/id/${id}/reviews/park`+ _paramsToStr(params,paramsName), {
-        method: "GET",
-        headers: { "Accept": "application/json" }
+        headers: { "Content-Type": "application/json","Accept": "application/json" },
+        body: JSON.stringify({
+            token:token
+          })
     });
     if (response.ok === true)
     {
@@ -224,9 +135,9 @@ export async function getUsers(startPosUsers=undefined,maxUsers=undefined) {
     }
 }
 /// images
-export async function getImageForRestaurant(id)
+export async function getImage(id)
 {
-    const response = await fetch("/api/images/places/restaurant/" + id, {
+    const response = await fetch("/api/images/id/" + id, {
         method: "GET",
         headers: { "Accept": "image/png" }
     });
@@ -239,81 +150,147 @@ export async function getImageForRestaurant(id)
         console.log(response);
     }
 }
-export async function getImageForEntertainment(id)
-{
-    const response = await fetch("/api/images/places/entertainment/" + id, {
-        method: "GET",
-        headers: { "Accept": "image/png" }
+
+//auth
+export async function registerUser(userName,userMail,password){
+    const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            userName: userName,
+            userMail: userMail,
+            password: password
+          })
     });
     if (response.ok === true)
     {
-        return await response.blob();
+        const token = await response.json()
+        return token;
+    }
+    else
+    {
+        if(response.status == 409){
+            return -1;
+        }
+        else{
+            console.log(response);
+        }
+    }
+}
+export async function login(userMail,password){
+    const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            userMail: userMail,
+            password: password
+          })
+    });
+    if (response.ok === true)
+    {
+        const token = await response.json()
+        return token;
     }
     else
     {
         console.log(response);
     }
 }
-export async function getImageForPark(id)
-{
-    const response = await fetch("/api/images/places/park/" + id, {
-        method: "GET",
-        headers: { "Accept": "image/png" }
+export async function logout(token){
+    const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token
+          })
     });
     if (response.ok === true)
     {
-        return await response.blob();
+        return await response.json()
     }
     else
     {
         console.log(response);
     }
 }
-export async function getImageForRestaurantReview(id)
-{
-    const response = await fetch("/api/images/reviews/restaurant/" + id, {
-        method: "GET",
-        headers: { "Accept": "image/png" }
+export async function createReview(token,rating,objectID,reviewText = undefined,images = [] || undefined){
+    const response = await fetch("/api/auth/createReview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token,
+            rating: rating,
+            objectID:objectID,
+            text:reviewText,
+            images:images,
+          })
     });
     if (response.ok === true)
     {
-        return await response.blob();
+        return await response.json()
     }
     else
     {
         console.log(response);
     }
 }
-export async function getImageForEntertainmentReview(id)
-{
-    const response = await fetch("/api/images/reviews/entertainment/" + id, {
-        method: "GET",
-        headers: { "Accept": "image/png" }
+export async function addToFavourites(token,objectID){
+    const response = await fetch("/api/auth/addFavourites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token,
+            objectID:objectID,
+          })
     });
     if (response.ok === true)
     {
-        return await response.blob();
+        return await response.json()
     }
     else
     {
         console.log(response);
     }
 }
-export async function getImageForParkReview(id)
-{
-    const response = await fetch("/api/images/reviews/park/" + id, {
-        method: "GET",
-        headers: { "Accept": "image/png" }
+export async function removeFromFavourites(token,objectID){
+    const response = await fetch("/api/auth/removeFavourites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token,
+            objectID:objectID,
+          })
     });
     if (response.ok === true)
     {
-        return await response.blob();
+        return await response.json()
     }
     else
     {
         console.log(response);
     }
 }
+export async function addImageToReview(token,image,objectID,reviewID){
+    const response = await fetch("/api/auth/uploadImageToReview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token,
+            objectID:objectID,
+            reviewID:reviewID,
+            image:image,
+          })
+    });
+    if (response.ok === true)
+    {
+        return await response.json()
+    }
+    else
+    {
+        console.log(response);
+    }
+}
+//misc
 function _paramsToStr(params,paramsName){
     let str = "?";
     for(let i = 0;i < params.length; i++){
