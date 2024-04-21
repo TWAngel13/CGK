@@ -6,7 +6,8 @@
         "pg-promise": "^11.5.4"
     },
     "devDependencies": {
-        "nodemon": "^3.1.0"
+        "nodemon": "^3.1.0",
+        "http-server": "14.1.1"
     },
     "scripts": {
         "start-prod": "node src/app.js",

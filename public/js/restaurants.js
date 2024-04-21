@@ -16,7 +16,7 @@ async function init()
         if (p.images[0] != null)
         {
             console.log(p.images[0])
-            var imgBlob = await getImageForRestaurant(p.images[0]);
+            var imgBlob = await api.getImageForRestaurant(p.images[0]);
             var imgURL = URL.createObjectURL(imgBlob);
             img.setAttribute('src', imgURL)
         }
