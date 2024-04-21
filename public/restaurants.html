@@ -18,7 +18,6 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
         <script src="libs/jquery/jquery-3.6.0.min.js" defer></script>
-        <script src="js/common.js" defer></script>
         <script type="module" src="js/restaurants.js" defer></script>
     </head>
 
@@ -49,22 +48,25 @@
                 </div>
             </nav>
         </header>
-        <div class="news-subtitle">КУДА пойти поесть?</div>
-        <div id="objects-list-div">
-            <div class="restaurant-div">
-                <div class="restaurant-text-block">
-                    <img class="restaurant-img" src="images/news_img.png">
-                    <img class="favorite-icon" src="images/heart.svg">
-                </div>
-                <div class="restaurant-text-block">
-                    <div class="restaurant-title">
-                        Название
+        <div class="objects-content">
+            <div class="news-subtitle">КУДА пойти поесть?</div>
+            <div id="objects-list-div">
+                <div class="restaurant-div">
+                    <div class="restaurant-text-block">
+                        <img class="restaurant-img" src="images/news_img.png">
+                        <img class="favorite-icon" src="images/heart.svg">
                     </div>
-                    <div class="restaurant-text">
-                        ШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШ...
+                    <div class="restaurant-text-block">
+                        <div class="restaurant-title">
+                            Название
+                        </div>
+                        <div class="restaurant-text">
+                            ШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШШ...
+                        </div>
                     </div>
                 </div>
             </div>
+            <button id="load-more-button" class="restaurant-load-more-button">ↆ</button>
         </div>
     </body>
 </html>

@@ -39,7 +39,7 @@
 .news-subtitle
 {
     font-family: "MontserratAlternates";
-    font-size: xx-large;
+    font-size: x-large;
     color: #00254A;
     margin-left: 5vw;
 
@@ -261,6 +261,11 @@
     margin-right: 1%;
 }
 
+.restaurant-load-more-button
+{
+    margin-bottom: 2vh;
+}
+
 .favorite-icon
 {
     position: absolute;
@@ -268,4 +273,9 @@
     height: 25px;
     top: 10px;
     right: 10px;
+}
+
+.objects-content
+{
+    text-align: center;
 }
