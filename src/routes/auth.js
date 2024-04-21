@@ -19,7 +19,7 @@ router.post("/signup",async function(req,res){
         res.status(InvalidParameters.statusCode).send({error:InvalidParameters.statusCode})
         return;
     }
-    const result = await User.createUser(userName,userMail).then((result)=>{
+    const result = await User.createUser(userName,userMail,userPassword).then((result)=>{
         if(result == AlreadyExists.code){
             res.status(AlreadyExists.statusCode).send({"error":AlreadyExists.error})
         }
