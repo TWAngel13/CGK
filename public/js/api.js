@@ -159,7 +159,7 @@ export async function registerUser(userName,userMail,password){
         body: JSON.stringify({
             userName: userName,
             userMail: userMail,
-            password: password
+            userPassword: password
           })
     });
     if (response.ok === true)

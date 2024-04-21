@@ -133,18 +133,19 @@ module.exports = class User{
             WHERE token = ${token}"
         ,params)
     }
-    static async createUser(name,email){
+    static async createUser(name,email,password){
         if(await this.#emailExists(email)){
             return AlreadyExists.code
         }
         else{
             const params = {
                 name:name,
-                email:email
+                email:email,
+                password:password
             }
-            await db.none(
-                "INSERT INTO users (name,email) \
-                VALUES (${name},${email}) \
+            await db.one(
+                "INSERT INTO users (name,email,password) \
+                VALUES (${name},${email},${password}) \
                 ON CONFLICT DO NOTHING"
                 ,params)
             return 1
