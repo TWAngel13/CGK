@@ -3,10 +3,11 @@ export async function getObjectsList(
     searchString = undefined,
     startPos = undefined,
     maxPlaces = undefined,
-    tags = []
+    tags = [],
+    objectCategory = undefined,
 ){
-    const params = [searchString,startPos,maxPlaces,tags];
-    const paramsName = ["search","start","max","tags"];
+    const params = [searchString,startPos,maxPlaces,tags,objectCategory];
+    const paramsName = ["search","start","max","tags","objectCategory"];
     const response = await fetch("/api/objects/list" +  _paramsToStr(params,paramsName), {
         method: "GET",
         headers: { "Accept": "application/json" }
@@ -20,7 +21,20 @@ export async function getObjectsList(
         console.log(response);
     }
 }
-
+export async function getObjectAttributes(id){
+    const response = await fetch(`/api/objects/id/${id}/attributes`, {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true)
+    {
+        return await response.json();
+    }
+    else
+    {
+        console.log(response);
+    }
+}
 export async function getObjectInfo(id,startPosReviews=undefined,maxReviews=undefined) {
     const params = [startPosReviews,maxReviews];
     const paramsName = ["start","max"];

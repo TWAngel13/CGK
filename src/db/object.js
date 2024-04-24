@@ -1,12 +1,12 @@
 const pgp = require('pg-promise')(/* options */)
-//const db = pgp(process.env.DB_URL)
-const db = pgp({
+const db = pgp(process.env.DB_URL)
+/*const db = pgp({
     "host": "localhost",
     "port": 5432,
     "database": "CGK",
     "user": "Anna",
     "password": "0000"
-})
+})*/
 module.exports = class Object{
     static async imageExists(objectID){
         const params = {
@@ -17,13 +17,14 @@ module.exports = class Object{
             WHERE id=${value})"
         ,params)).exists
     }
-    static async getAllObjects(startPos,maxPos,sort,search,tags){
+    static async getAllObjects(startPos,maxPos,sort,search,tags,categoryName){
         const params = {
             start:startPos,
             limit:maxPos,
             sort:sort,
             search:search,
             tags:tags,
+            categoryName:categoryName,
         }
         const list = await db.one(
             "SELECT \
@@ -38,10 +39,20 @@ module.exports = class Object{
                 ON object.id = images.objectid\
                 LEFT JOIN objecttag \
                 ON object.id = objecttag.objectid\
+                LEFT JOIN objectcategory \
+                ON object.category = objectcategory.id \
                 LEFT JOIN tag \
                 ON tag.id = objecttag.tagid \
                 WHERE \
                     object.name LIKE '%${search:value}%'\
+                    AND \
+                        ${categoryName} IS NOT NULL\
+                        AND \
+                        objectcategory.name = ${categoryName} \
+                        OR \
+                        ${categoryName} IS NULL\
+                        AND \
+                        TRUE \
                     AND \
                         (COALESCE(${tags:list},'') = ''\
                         OR \
@@ -82,6 +93,17 @@ module.exports = class Object{
         ,params)
         return reviews
     }
+    static async getObjectAttributes(objectID){
+        const params = {
+            objectID:objectID,
+        }
+        return (await db.one(
+            "SELECT \
+            json_object_agg(objectattribute.attributename,objectattribute.attributevalue) as attributes\
+            FROM objectattribute \
+            WHERE objectid = ${objectID}"
+        ,params))
+    }
     static async getInfo(objectID){
         const params = {
             objectID:objectID,
@@ -91,8 +113,8 @@ module.exports = class Object{
                 object.*,\
                 ARRAY_AGG(DISTINCT images.id) AS images, \
                 JSON_AGG(DISTINCT businesshours) AS workingHours, \
-                ARRAY_AGG(DISTINCT tag.name) AS tagsName, \
-                ARRAY_AGG(DISTINCT objectattribute.attributename) AS attributes \
+                json_object_agg(objectattribute.attributename,objectattribute.attributevalue) as attributes,\
+                ARRAY_AGG(DISTINCT tag.name) AS tagsName \
             FROM object \
             LEFT JOIN images \
             ON object.id = images.objectid \
