@@ -99,7 +99,7 @@ module.exports = class Object{
         }
         return (await db.one(
             "SELECT \
-            json_object_agg(objectattribute.attributename,objectattribute.attributevalue) as attributes\
+            COALESCE(json_object_agg(objectattribute.attributename,objectattribute.attributevalue) FILTER (WHERE objectattribute.attributename IS NOT NULL), '{}'::JSON) as attributes\
             FROM objectattribute \
             WHERE objectid = ${objectID}"
         ,params))
@@ -113,7 +113,7 @@ module.exports = class Object{
                 object.*,\
                 ARRAY_AGG(DISTINCT images.id) AS images, \
                 JSON_AGG(DISTINCT businesshours) AS workingHours, \
-                json_object_agg(objectattribute.attributename,objectattribute.attributevalue) as attributes,\
+                COALESCE(json_object_agg(objectattribute.attributename,objectattribute.attributevalue) FILTER (WHERE objectattribute.attributename IS NOT NULL), '{}'::JSON) as attributes,\
                 ARRAY_AGG(DISTINCT tag.name) AS tagsName \
             FROM object \
             LEFT JOIN images \
