@@ -10,7 +10,7 @@ async function init()
 
 async function loadMore()
 {
-    var loadedObjects = (await objectsCommon.getObjectsOfCategory("restaurant", 2));
+    var loadedObjects = (await objectsCommon.getObjectsOfCategory("restaurant", 1));
     if(loadedObjects)
     {
         for(const object of loadedObjects)

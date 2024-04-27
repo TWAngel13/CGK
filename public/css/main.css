@@ -2,9 +2,13 @@
 
 @font-face { src: url("../fonts/OpenSans-ExtraBold.woff") format("woff"); font-family: "OpenSansEB"; font-weight: 600; font-style: bold; }
 @font-face { src: url("../fonts/OpenSans-Bold.woff") format("woff"); font-family: "OpenSansB"; font-weight: 400; font-style: normal; }
+@font-face { src: url("../fonts/OpenSans-SemiBold.woff") format("woff"); font-family: "OpenSansSB"; font-weight: 400; font-style: normal; }
 @font-face { src: url("../fonts/MontserratAlternates-ExtraBold.woff") format("woff"); font-family: "MontserratAlternates"; font-weight: 400; font-style: italic; }
 @font-face { src: url("../fonts/Comfortaa-Bold.woff") format("woff"); font-family: "Comfortaa"; font-weight: 700; font-style: normal; }
-
+body
+{
+    background-color: #F0EFEF;
+}
 .recommend-div
 {
     border-radius: 10px;
@@ -277,5 +281,72 @@
 
 .objects-content
 {
+    max-width: 400px;
+    margin: 2vh auto;
     text-align: center;
+}
+
+.object-info-container
+{
+    font-family: "Comfortaa";
+    font-size: large;
+    text-align: left;
+}
+
+.object-info
+{
+    margin: 5px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.object-info-logo
+{
+    display: inline-block;
+}
+
+.object-info-text
+{
+    margin: 0 0 0 15px;
+    width: auto;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.object-review-subtitle
+{
+    font-family: "MontserratAlternates";
+    font-size: x-large;
+    color: #00254A;
+    margin: 5px 0;
+}
+
+.review-card
+{
+    width: 100%;
+    height: 150px;
+    font-family: "OpenSansEB"; 
+    border-radius: 10px;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    box-shadow: 10px 5px 5px rgb(202, 202, 202);
+
+    padding-top: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 2vh;
+}
+
+.object-button
+{
+    height: 50px;
+    width: 100%;
+    font-family: "OpenSansSB";
+    font-size: large; 
+    border-radius: 10px;
+    border: 0px;
+    background:rgb(0, 37, 74);
+    color: rgb(255, 255, 255);
+    margin: 5px 0;
+
 }

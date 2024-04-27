@@ -49,18 +49,40 @@
             </nav>
         </header>
         <div class="objects-content">
-            <img src="images/image-road.png" style="margin: 10px;">
+            <img src="images/image-road.png" style="width: 100%; height: 100%; max-width: 400px;">
             <div class="object-info-container">
-                <div>Улица</div>
-                <div>8 800 555 35 35</div>
-                <div>10:00 - 20:00</div>
+                <div class="object-info">
+                    <div class="object-info-logo">
+                        <img src="images/mapPoint.svg" />
+                    </div>
+                    <div class="object-info-text">
+                        Улица
+                    </div>
+                </div>
+                <div class="object-info">
+                    <div class="object-info-logo">
+                        <img src="images/mapPoint.svg" />
+                    </div>
+                    <div class="object-info-text">
+                        8 800 555 35 35
+                    </div>
+                </div>
+                <div class="object-info">
+                    <div class="object-info-logo">
+                        <img src="images/mapPoint.svg" />
+                    </div>
+                    <div class="object-info-text">
+                        10:00 - 20:00
+                    </div>
+                </div>
             </div>
             <div class="object-images-container">
 
             </div>
-            <button class="object-map-button" onclick="window.location.replace('/map.html');">В ПУТЬ</button>
+            <button class="object-button">В ПУТЬ</button>
+            <button class="object-button">НАПИСАТЬ ОТЗЫВ</button>
             <div class="object-review-container">
-                <div class="news-subtitle">ОТЗЫВЫ</div>
+                <div class="object-review-subtitle">ОТЗЫВЫ</div>
                 <div class="review-card">
                     <div>Имя Имя</div>
                     <div>Оценка</div>
