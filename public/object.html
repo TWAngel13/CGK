@@ -23,7 +23,7 @@
 
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -49,29 +49,30 @@
             </nav>
         </header>
         <div class="objects-content">
-            <img src="images/image-road.png" style="width: 100%; height: 100%; max-width: 400px;">
+            <div id="object-name-div" class="news-subtitle">НАЗВАНИЕ</div>
+            <img id="object-img" class="object-img" src="images/image-road.png">
             <div class="object-info-container">
                 <div class="object-info">
                     <div class="object-info-logo">
-                        <img src="images/mapPoint.svg" />
+                        <img class="object-attribute-item" src="images/mapPoint.svg" />
                     </div>
-                    <div class="object-info-text">
+                    <div id="address-div" class="object-info-text">
                         Улица
                     </div>
                 </div>
                 <div class="object-info">
                     <div class="object-info-logo">
-                        <img src="images/mapPoint.svg" />
+                        <img class="object-attribute-item" src="images/mapPoint.svg" />
                     </div>
-                    <div class="object-info-text">
+                    <div id="phone-div" class="object-info-text">
                         8 800 555 35 35
                     </div>
                 </div>
                 <div class="object-info">
                     <div class="object-info-logo">
-                        <img src="images/mapPoint.svg" />
+                        <img class="object-attribute-item" src="images/mapPoint.svg" />
                     </div>
-                    <div class="object-info-text">
+                    <div id="working-hours-div" class="object-info-text">
                         10:00 - 20:00
                     </div>
                 </div>
@@ -81,11 +82,17 @@
             </div>
             <button class="object-button">В ПУТЬ</button>
             <button class="object-button">НАПИСАТЬ ОТЗЫВ</button>
-            <div class="object-review-container">
+            <div id="review-container-div" class="object-review-container">
                 <div class="object-review-subtitle">ОТЗЫВЫ</div>
                 <div class="review-card">
                     <div>Имя Имя</div>
-                    <div>Оценка</div>
+                    <div>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
                     <div>Текст отзыва</div>
                 </div>
             </div>

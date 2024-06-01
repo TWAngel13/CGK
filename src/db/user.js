@@ -1,7 +1,13 @@
 const { AlreadyExists, NotExists, AccessDenied } = require('../constaints/errorCodes')
 
 const pgp = require('pg-promise')(/* options */)
-const db = pgp(process.env.DB_URL)
+const db = pgp({
+    "host": "localhost",
+    "port": 5432,
+    "database": "CGK",
+    "user": "Anna",
+    "password": "0000"
+})
 module.exports = class User{
     static async getUserInfoMinimal(userID){
         const params = {

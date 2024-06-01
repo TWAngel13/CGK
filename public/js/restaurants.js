@@ -3,11 +3,6 @@ import * as objectsCommon from "./objectsCommon.js"
 
 var objectsDiv = document.getElementById('objects-list-div');
 
-async function init()
-{
-    
-}
-
 async function loadMore()
 {
     var loadedObjects = (await objectsCommon.getObjectsOfCategory("restaurant", 1));
@@ -32,7 +27,8 @@ async function showObject(object, objectInfo)
     var rightBlockDiv = document.createElement('div');
     var img = document.createElement('img');
     var objectName = document.createElement('div');
-    var objectDescription = document.createElement('div');
+    var descriptionDiv = document.createElement('div');
+    console.log(object);
 
     if (object.images[0] != null)
     {
@@ -42,16 +38,21 @@ async function showObject(object, objectInfo)
     }
 
     objectName.textContent = object.name;
-    if(objectInfo.attributes[0] != null)
+    if(objectInfo.attributes != null)
     {
-        //objectDescription.textContent = (object.description.length > 32) ? object.description.slice(0, 32-1) + '...' : object.description;
-        objectDescription.textContent = (objectInfo.attributes[0].length > 32) ? objectInfo.attributes[0].slice(0, 32-1) + '...' : objectInfo.attributes[0];
+        var addressDiv = document.createElement('div');
+        var phoneDiv = document.createElement('div');
+        addressDiv.textContent = objectInfo.attributes.address;
+        phoneDiv.textContent = objectInfo.attributes.phone.split(',')[0];
+        descriptionDiv.appendChild(addressDiv);
+        descriptionDiv.appendChild(phoneDiv);
+        //descriptionDiv.textContent = objectInfo.attributes.address + objectInfo.attributes.phone;
     }
 
     objectDiv.classList.add('restaurant-div');
     img.classList.add('restaurant-img');
     objectName.classList.add('restaurant-title');
-    objectDescription.classList.add('restaurant-text');
+    descriptionDiv.classList.add('restaurant-text');
     leftBlockDiv.classList.add('restaurant-text-block');
     rightBlockDiv.classList.add('restaurant-text-block');
     /*
@@ -68,7 +69,7 @@ async function showObject(object, objectInfo)
     leftBlockDiv.appendChild(img);
 
     rightBlockDiv.appendChild(objectName);
-    rightBlockDiv.appendChild(objectDescription);
+    rightBlockDiv.appendChild(descriptionDiv);
     objectsDiv.appendChild(objectDiv);
 
     if(false)
@@ -84,9 +85,7 @@ async function showObject(object, objectInfo)
     }
 }
 
-init()
-
 document.getElementById("load-more-button").addEventListener('click', () => 
 {
-    loadMore()
+    loadMore();
 })

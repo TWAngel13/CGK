@@ -9,6 +9,21 @@ body
 {
     background-color: #F0EFEF;
 }
+
+.bg-navbar
+{
+    background: linear-gradient(225.58deg, rgb(0, 37, 74) 0.047%,rgb(0, 88, 176) 99.953%);
+}
+
+.search-bar
+{
+    border-radius: 10px;
+    box-shadow: 6px 4px 10px 0px rgba(0, 0, 0, 0.15);
+    background: rgb(231, 232, 232);
+    height: 40px;
+    width: 75%;
+}
+
 .recommend-div
 {
     border-radius: 10px;
@@ -45,8 +60,7 @@ body
     font-family: "MontserratAlternates";
     font-size: x-large;
     color: #00254A;
-    margin-left: 5vw;
-
+    text-align: center;
 }
 
 .news-div
@@ -208,13 +222,13 @@ body
 .restaurant-div
 {
     height: 25vh;
-    width: 86vw;
+    width: 100%;
     font-family: "OpenSansEB"; 
     border-radius: 10px;
     background: #00254A;
     color: rgb(255, 255, 255);
-    margin-left: 5vw;
-    margin-right: 5vw;
+    /* margin-left: 5vw;
+    margin-right: 5vw; */
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding-top: 2vh;
@@ -285,7 +299,7 @@ body
 
 .objects-content
 {
-    max-width: 400px;
+    width: 80vw;
     margin: 2vh auto;
     text-align: center;
 }
@@ -299,22 +313,31 @@ body
 
 .object-info
 {
-    margin: 5px 15px;
-    white-space: nowrap;
+    margin: 5px;
+    /* white-space: nowrap; */
     overflow: hidden;
+}
+
+.object-attribute-icon
+{
+    max-width: 100%;
+    min-width: 10px;
 }
 
 .object-info-logo
 {
+    width: 5%;
+    margin-right: 5px;
     display: inline-block;
 }
 
 .object-info-text
 {
-    margin: 0 0 0 15px;
-    width: auto;
+    /* margin: 0 0 0 15px; */
+    width: 90%;
     letter-spacing: 1px;
     display: inline-block;
+    text-wrap: wrap;
 }
 
 .object-review-subtitle
@@ -339,6 +362,16 @@ body
     padding-left: 2vw;
     padding-right: 2vw;
     padding-bottom: 2vh;
+
+    margin-top: 10px;
+}
+
+.object-img
+{
+    width: 80vw; 
+    height: 40vh; 
+    max-width: 400px;
+    object-fit: cover;
 }
 
 .object-button
@@ -353,6 +386,21 @@ body
     color: rgb(255, 255, 255);
     margin: 5px 0;
 
+}
+
+.object-review-container
+{
+    text-align: left;
+}
+
+.review-star
+{
+    margin-right: 5px;
+}
+
+.review-star-checked
+{
+    color: #0BC976;
 }
 
 .modal-content
