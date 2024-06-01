@@ -268,6 +268,10 @@ body
 .restaurant-load-more-button
 {
     margin-bottom: 2vh;
+    border-radius: 10px;
+    background: rgb(0, 37, 74);
+    padding: auto;
+    text-emphasis-color: white;
 }
 
 .favorite-icon
@@ -349,4 +353,26 @@ body
     color: rgb(255, 255, 255);
     margin: 5px 0;
 
+}
+
+.modal-content
+{
+    border-radius: 10px;
+    background: linear-gradient(180.00deg, rgb(11, 201, 118),rgb(0, 123, 192) 100%);
+}
+
+.form-text-header
+{
+    font-family: "MontserratAlternates";
+    font-size: medium;
+}
+.scr-end-window-text
+{
+    font-family: "MontserratAlternates";
+    font-size: medium;
+}
+.scr-end-window-button
+{
+    font-family: "MontserratAlternates";
+    font-size: large;
 }

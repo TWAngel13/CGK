@@ -46,20 +46,83 @@
                     
                 </div>
             </nav>
-            <div class="recommend-div">
-                <div class="recommend-text">Че. Где? Куда?</div>
-                <button class="recommend-button">Получить рекомендации</button>
-            </div>
-            <div class="news-subtitle">Новости</div>
-            <div class="news-div">
-                <img class="news-img" src="images/news_img.png">
-                <div class="news-title">
-                    Новость
-                </div>
-                <div class="news-text">
-                    Текст новости
-                </div>
-            </div>
         </header>
+        <div class="recommend-div">
+            <div class="recommend-text">Че. Где? Куда?</div>
+            <button class="recommend-button" data-bs-toggle="modal" data-bs-target="#exampleModal">Получить рекомендации</button>
+        </div>
+        <div class="news-subtitle">Новости</div>
+        <div class="news-div">
+            <img class="news-img" src="images/news_img.png">
+            <div class="news-title">
+                Новость
+            </div>
+            <div class="news-text">
+                Текст новости
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog" style="height: 94vh; width: 90vw; margin: auto;">
+                <div class="modal-content" style="height: 94vh; width: auto; margin: 3vh auto 3vh auto;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Че. Где? Куда?</h5>
+                    </div>
+                    <div class="modal-body" id="exampleModalContent">
+                        <div class="scr-end-window">
+                            <div class="row scr-end-window-text">
+                                <br> Заполните анкету, чтобы подобрать лучшие места для отдыха в Челябинске!  
+                            </div>
+                                <ul class="list-group">
+                                <div class="form-text-header">С кем планируете отдыхать?</div>
+                                <li class="list-group-item">
+                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                  Один
+                                </li>
+                                <li class="list-group-item">
+                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                  С парой
+                                </li>
+                                <li class="list-group-item">
+                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                  С детьми
+                                </li>
+                                <li class="list-group-item">
+                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                  С компанией
+                                </li>
+                                </ul>
+                                <ul class="list-group">
+                                <div class="form-text-header">В компании будет четвероногий друг? Это необходимо для подбора мест, доступных для посещения с животными</div>
+                                <li class="list-group-item">
+                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                  Да
+                                </li>
+                                <li class="list-group-item">
+                                  <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                  Нет
+                                </li>
+                                </ul>
+                                <ul class="list-group">
+                                    <div class="form-text-header">Вы планируете отдых в центре города?</div>
+                                    <li class="list-group-item">
+                                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                      Да
+                                    </li>
+                                    <li class="list-group-item">
+                                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                      Нет
+                                    </li>
+                                </ul>
+                            <div class="row scr-end-window-button-row">
+                                <button type="button" id= "orderButton" class="btn scr-end-window-button" data-bs-toggle="modal" data-bs-target="#exampleModal">Получить рекоммендации!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn scr-end-window-button" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
