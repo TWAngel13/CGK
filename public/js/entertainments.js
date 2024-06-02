@@ -62,12 +62,11 @@ async function showObject(object, objectInfo)
     descriptionDiv.classList.add('entertainment-text');
     leftBlockDiv.classList.add('entertainment-text-block');
     rightBlockDiv.classList.add('entertainment-text-block');
-    /*
+ 
     objectDiv.onclick = () =>
-    {
-        window.location.href = './object.html?id=' + p.id;
-    }
-    */
+        {
+            window.location.href = './object.html?id=' + object.id;
+        }
 
 
 

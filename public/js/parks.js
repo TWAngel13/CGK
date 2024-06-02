@@ -28,7 +28,6 @@ async function showObject(object, objectInfo)
     var img = document.createElement('img');
     var objectName = document.createElement('div');
     var descriptionDiv = document.createElement('div');
-    console.log(object);
 
     if (object.images[0] != null)
     {
@@ -55,14 +54,11 @@ async function showObject(object, objectInfo)
     descriptionDiv.classList.add('park-text');
     leftBlockDiv.classList.add('park-text-block');
     rightBlockDiv.classList.add('park-text-block');
-    /*
+
     objectDiv.onclick = () =>
-    {
-        window.location.href = './object.html?id=' + p.id;
-    }
-    */
-
-
+        {
+            window.location.href = './object.html?id=' + object.id;
+        }
 
     objectDiv.appendChild(leftBlockDiv);
     objectDiv.appendChild(rightBlockDiv);

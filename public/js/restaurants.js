@@ -55,14 +55,11 @@ async function showObject(object, objectInfo)
     descriptionDiv.classList.add('restaurant-text');
     leftBlockDiv.classList.add('restaurant-text-block');
     rightBlockDiv.classList.add('restaurant-text-block');
-    /*
+
     objectDiv.onclick = () =>
-    {
-        window.location.href = './object.html?id=' + p.id;
-    }
-    */
-
-
+        {
+            window.location.href = './object.html?id=' + object.id;
+        }
 
     objectDiv.appendChild(leftBlockDiv);
     objectDiv.appendChild(rightBlockDiv);
