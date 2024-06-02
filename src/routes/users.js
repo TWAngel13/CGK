@@ -8,7 +8,7 @@ module.exports = router;
 http://localhost:3000/users/<ID>/reviews/<NAME>   optional --> ?start=0&max=10000
 
 
-router.get("/id/:id/",async function(req,res){
+router.post("/id/:id/",async function(req,res){
     const userID = req.params.id
     const token = req.body.token
     const result = await getUserInfo(userID,token)
@@ -39,7 +39,7 @@ router.get("/id/:id/reviews/",async function(req,res){
             res.status(200).send(result)
     }
 });
-router.get("/id/:id/favourites/",async function(req,res){
+router.post("/id/:id/favourites/",async function(req,res){
     const token = req.body.token
     const startPos = req.query.start?req.query.start:0
     const maxSize = req.query.max<100?req.query.max:100
@@ -66,7 +66,7 @@ router.get("/list",async function(req,res){
     res.status(200).send(result);
 });
 async function getUserInfo(id,token){
-    const userID = token?await User.validateToken(token):Number(id)
+    const userID = token?await User.validateToken(String(token)):Number(id)
     const logined = token?true:false
     if(!userID || !isInteger(userID)){
         return InvalidParameters.code

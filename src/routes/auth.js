@@ -42,8 +42,10 @@ router.post("/signin",async function(req,res){
     const token = await User.loginUser(userMail,userPassword);
     if(token == NotExists.code){
         res.status(NotExists.statusCode).send({error:NotExists.statusCode})
+        return;
     }
-    res.status(200).send(token)
+    const response = parseJSON({token:token});
+    res.status(200).send({token:token})
 });
 router.post("/logout",async function(req,res){
     const userToken = String(req.body.token);

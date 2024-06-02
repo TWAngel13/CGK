@@ -80,14 +80,8 @@ export async function getAllTagsByID(id){
     }
 }
 //// users
-export async function getUserInfo(id,token = undefined) {
-    const response = await fetch(`/api/users/id/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json","Accept": "application/json" },
-        body: JSON.stringify({
-            token:token
-          })
-    });
+export async function getUserInfo(id) {
+    const response = await _getUserInfo(id);
     if (response.ok === true)
     {
         return await response.json();
@@ -117,7 +111,7 @@ export async function getUserFavourites(id,token,startPosReviews=undefined,maxRe
     const params = [startPosReviews,maxReviews];
     const paramsName = ["start","max"];
     const response = await fetch(`/api/users/id/${id}/favourites`+ _paramsToStr(params,paramsName), {
-        method: "GET",
+        method: "POST",
         headers: { "Content-Type": "application/json","Accept": "application/json" },
         body: JSON.stringify({
             token:token
@@ -191,19 +185,19 @@ export async function registerUser(userName,userMail,password){
         }
     }
 }
-export async function login(userMail,password){
+export async function loginUser(userMail,password){
     const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             userMail: userMail,
-            password: password
+            userPassword: password
           })
     });
     if (response.ok === true)
     {
-        const token = await response.json()
-        return token;
+        const res = await response.json()
+        return res.token;
     }
     else
     {
@@ -304,6 +298,17 @@ export async function addImageToReview(token,image,objectID,reviewID){
         console.log(response);
     }
 }
+export async function getUserInfoAuth(token) {
+    const response = await _getUserInfo(undefined,token);
+    if (response.ok === true)
+    {
+        return await response.json();
+    }
+    else
+    {
+        console.log(response);
+    }
+}
 //misc
 function _paramsToStr(params,paramsName){
     let str = "?";
@@ -313,4 +318,14 @@ function _paramsToStr(params,paramsName){
         }
     }
     return str
+}
+async function _getUserInfo(id ,token = undefined) {
+    const response = fetch(`/api/users/id/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json","Accept": "application/json" },
+        body: JSON.stringify({
+            token:token
+          })
+    });
+    return response;
 }
