@@ -107,13 +107,13 @@ body
 .entertainment-div
 {
     height: 25vh;
-    width: 86vw;
+    width: 100%;
     font-family: "OpenSansEB"; 
     border-radius: 10px;
     background: rgb(235, 128, 6);
     color: rgb(255, 255, 255);
-    margin-left: 5vw;
-    margin-right: 5vw;
+    /* margin-left: 5vw;
+    margin-right: 5vw; */
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding-top: 2vh;
@@ -164,16 +164,25 @@ body
     margin-right: 1%;
 }
 
+.entertainment-load-more-button
+{
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    background:rgb(235, 128, 6);
+    padding: auto;
+    text-emphasis-color: white;
+}
+
 .park-div
 {
     height: 25vh;
-    width: 86vw;
+    width: 100%;
     font-family: "OpenSansEB"; 
     border-radius: 10px;
-    background: #0BC976;
+    background:rgb(11, 201, 118);
     color: rgb(255, 255, 255);
-    margin-left: 5vw;
-    margin-right: 5vw;
+    /* margin-left: 5vw;
+    margin-right: 5vw; */
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding-top: 2vh;
@@ -222,6 +231,15 @@ body
     position: relative;
     margin-left: 1%;
     margin-right: 1%;
+}
+
+.park-load-more-button
+{
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    background: rgb(11, 201, 118);
+    padding: auto;
+    text-emphasis-color: white;
 }
 
 .restaurant-div
