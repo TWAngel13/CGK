@@ -15,6 +15,11 @@ body
     background: linear-gradient(225.58deg, rgb(0, 37, 74) 0.047%,rgb(0, 88, 176) 99.953%);
 }
 
+.navbar-menu
+{
+    font-family: "OpenSansSB";
+    color: #ffffff;
+}
 .search-bar
 {
     border-radius: 10px;
