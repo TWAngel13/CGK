@@ -447,3 +447,28 @@ body
     font-family: "MontserratAlternates";
     font-size: large;
 }
+.review-card-short
+{
+    height: 90px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+.account-favourites
+{
+    display: flex;
+    flex-direction: column;
+}
+.account-row
+{
+    display: flex;
+    flex-direction: row;
+}
+.text-single-line
+{
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow:hidden;
+}

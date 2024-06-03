@@ -11,7 +11,7 @@ router.post("/signup",async function(req,res){
     const userName = String(req.body.userName)
     const userMail = String(req.body.userMail)
     const userPassword = String(req.body.userPassword)
-    if(!req.body.userName && !req.body.userMail && !req.body.userPassword){
+    if(!req.body.userName || !req.body.userMail || !req.body.userPassword){
         res.status(InvalidParameters.statusCode).send({error:InvalidParameters.statusCode})
         return;
     }
@@ -19,12 +19,15 @@ router.post("/signup",async function(req,res){
         res.status(InvalidParameters.statusCode).send({error:InvalidParameters.statusCode})
         return;
     }
-    const result = await User.createUser(userName,userMail,userPassword).then((result)=>{
+    const result = await User.createUser(userName,userMail,userPassword).then(async (result)=>{
         if(result == AlreadyExists.code){
             res.status(AlreadyExists.statusCode).send({"error":AlreadyExists.error})
+            return;
         }
         else{
-            res.status(200).send(result);
+            const token = await User.loginUser(userMail,userPassword);
+            res.status(200).send({token:token});
+            return;
         }
     });
 });

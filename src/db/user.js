@@ -156,7 +156,7 @@ module.exports = class User{
                 email:email,
                 password:password
             }
-            await db.one(
+            await db.none(
                 "INSERT INTO users (name,email,password) \
                 VALUES (${name},${email},${password}) \
                 ON CONFLICT DO NOTHING"

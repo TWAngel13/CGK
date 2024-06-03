@@ -172,8 +172,8 @@ export async function registerUser(userName,userMail,password){
     });
     if (response.ok === true)
     {
-        const token = await response.json()
-        return token;
+        const res = await response.json()
+        return res.token;
     }
     else
     {
