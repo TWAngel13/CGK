@@ -7,8 +7,6 @@ async function init()
     var objectID = (new URLSearchParams(window.location.search)).get('id');
     var objectInfo = await api.getObjectInfo(objectID);
 
-    console.log(objectInfo);
-
     document.getElementById('object-name-div').textContent = objectInfo.info.name;
 
     var imgBlob = await api.getImage(objectInfo.info.images[0]);
@@ -20,13 +18,13 @@ async function init()
 
     for(var i = 0; i < objectInfo.reviews.length; i++)
     {
-        console.log(objectInfo.reviews[i]);
         var reviewDiv = document.createElement('div');
         var reviewName = document.createElement('div');
         var reviewRating = document.createElement('div');
         var reviewText = document.createElement('div');
 
-        reviewName.textContent = objectInfo.reviews[i].userid;
+        //reviewName.textContent = objectInfo.reviews[i].userid;
+        reviewName.textContent = (await api.getUsers()).users.filter((user) => user.id == objectInfo.reviews[i].userid)[0].name;
         for(var j = 0; j < 5; j++)
         {
             
@@ -54,7 +52,7 @@ async function init()
         reviewDiv.appendChild(reviewText);
 
         document.getElementById('review-container-div').appendChild(reviewDiv);
-        //console.log(await api.getUsers(objectInfo.reviews[i].userid));
+        console.log(await api.getObjectsList("драмы"));
     }
 }
 

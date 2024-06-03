@@ -5,6 +5,7 @@ var objectsDiv = document.getElementById('objects-list-div');
 async function loadMore()
 {
     var loadedObjects = (await objectsCommon.getObjectsOfCategory("entertainment", 3));
+    console.log(loadedObjects);
     if(loadedObjects)
     {
         for(const object of loadedObjects)
