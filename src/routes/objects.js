@@ -56,6 +56,7 @@ router.get("/list",async function(req,res){
     const maxSize = req.query.max<100?req.query.max:100
     const search = req.query.search?req.query.search:""
     const tags = req.query.tags?parseJSON(req.query.tags):null
+    console.log(tags);
     const objectCategory = req.query.objectCategory?String(req.query.objectCategory):null
     const result = await getListOfPlaces(startPos,maxSize,undefined,search,tags,objectCategory)
     if(result == InvalidParameters.code){
