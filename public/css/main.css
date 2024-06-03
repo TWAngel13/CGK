@@ -120,6 +120,7 @@ body
     padding-left: 2vw;
     padding-right: 2vw;
     padding-bottom: 2vh;
+    cursor: pointer;
 }
 
 .entertainment-img
@@ -189,6 +190,7 @@ body
     padding-left: 2vw;
     padding-right: 2vw;
     padding-bottom: 2vh;
+    cursor: pointer;
 }
 
 .park-img
@@ -258,6 +260,7 @@ body
     padding-left: 2vw;
     padding-right: 2vw;
     padding-bottom: 2vh;
+    cursor: pointer;
 }
 
 .restaurant-img

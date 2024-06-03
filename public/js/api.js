@@ -3,10 +3,15 @@ export async function getObjectsList(
     searchString = undefined,
     startPos = undefined,
     maxPlaces = undefined,
-    tags = [],
+    tags = undefined,
     objectCategory = undefined,
 ){
-    const params = [searchString,startPos,maxPlaces,tags,objectCategory];
+    const params = [
+        searchString,
+        startPos,
+        maxPlaces,
+        tags?JSON.stringify(tags):undefined,
+        objectCategory?JSON.stringify(objectCategory):undefined];
     const paramsName = ["search","start","max","tags","objectCategory"];
     const response = await fetch("/api/objects/list" +  _paramsToStr(params,paramsName), {
         method: "GET",

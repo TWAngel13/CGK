@@ -33,7 +33,6 @@ module.exports = class Object{
             optionalTags:optionalTags,
             categoryName:categoryName,
         }
-        console.log(optionalTags)
         const list = await db.one(
             "SELECT \
                 JSON_AGG(DISTINCT x.*) as objects\
@@ -52,7 +51,7 @@ module.exports = class Object{
                 LEFT JOIN tag \
                 ON tag.id = objecttag.tagid \
                 WHERE \
-                    object.name LIKE '%${search:value}%'\
+                    LOWER(object.name) LIKE LOWER('%${search:value}%')\
                     AND \
                         (${categoryName} IS NOT NULL\
                         AND \

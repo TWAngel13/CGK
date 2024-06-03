@@ -10,9 +10,9 @@ export async function getObjectsOfCategory(category, number = 1)
     return result;
 }
 
-export async function searchObjects(searchString, number = 1)
+export async function searchObjects(searchString, number = 1,tags = undefined)
 {
-    var result = (await api.getObjectsList(searchString, position, number, undefined, undefined)).objects
+    var result = (await api.getObjectsList(searchString, position, number, tags, undefined)).objects
     position += number;
     return result;
 }

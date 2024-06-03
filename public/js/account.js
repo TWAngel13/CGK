@@ -4,31 +4,23 @@ const username = document.getElementById("username");
 const favourites = document.getElementById("favourites");
 const reviews = document.getElementById("reviews");
 const logoutButton = document.getElementById("logout");
+let userInfo;
 async function init()
 {
     if (!token) {
         window.location.href = "login.html";
     }
-    const userInfo = await api.getUserInfoAuth(token);
+    userInfo = await api.getUserInfoAuth(token);
     if(!userInfo){
         logout();
     }
     logoutButton.onclick = logout;
     username.textContent = userInfo.name;
     if(userInfo.favourites[0] != null){
-        for (const element in userInfo.favourites){
-            const object = (await api.getObjectInfo(userInfo.favourites[element].objectid)).info;
-            const div = createFavourite(object);
-            favourites.appendChild(div)
-        }
+        loadMoreFavourites(0,3);
     }
     if(userInfo.review[0] != null){
-        for (const element in userInfo.review){
-            const review = userInfo.review[element];
-            const object = (await api.getObjectInfo(review.object)).info;  
-            const reviewDiv = createReview(object,review);
-            reviews.appendChild(reviewDiv)
-        }
+        loadMoreReviews(0,3);
     }
 }
 function createFavourite(object) {
@@ -75,8 +67,61 @@ function createReview(object,review) {
     reviewDiv.appendChild(reviewText);
     return reviewDiv;
 }
-function logout(){
+async function logout(){
+    await api.logout(token);
     localStorage.removeItem("auth_token");
     window.location.href = "login.html";
+}
+function showMoreButton(func){
+    const button = document.createElement("button");
+    button.className = "btn btn-primary park-load-more-button";
+    button.onclick = func;
+    button.textContent = "Показать ещё " 
+    return button;
+}
+async function loadMoreFavourites(current,amount){
+    if (userInfo.favourites.length > current) {
+        if(favourites.lastChild != null) {
+            favourites.removeChild(favourites.lastChild);
+        }
+        for (let i = current; i < amount+current; i++){
+            if (userInfo.favourites[i]==undefined){
+                return;
+            }
+            const object = (await api.getObjectInfo(userInfo.favourites[i].objectid)).info;
+            const div = createFavourite(object);
+            favourites.appendChild(div)
+        }
+        if (current+amount < maxLength){
+            favourites.appendChild(showMoreButton(() => {
+                const _current = current+amount;
+                const _amount = amount;
+                loadMoreFavourites(_current,_amount);
+            }))
+        }
+    }
+}
+async function loadMoreReviews(current,amount){
+    if (userInfo.review.length > current) {
+        if(reviews.lastChild != null) {
+            reviews.removeChild(reviews.lastChild);
+        }
+        for (let i = current; i<amount+current; i++){
+            if (userInfo.review[i]==undefined){
+                return;
+            }
+            const review = userInfo.review[i];
+            const object = (await api.getObjectInfo(review.object)).info;  
+            const reviewDiv = createReview(object,review);
+            reviews.appendChild(reviewDiv)
+        }
+        if (current+amount <= userInfo.review.length){
+            reviews.appendChild(showMoreButton(() => {
+                const _current = current+amount;
+                const _amount = amount;
+                loadMoreReviews(_current,_amount);
+            }))
+        }
+    }
 }
 init();

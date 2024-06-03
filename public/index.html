@@ -18,7 +18,9 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
         <script src="libs/jquery/jquery-3.6.0.min.js" defer></script>
-    </head>
+        <script type="module" src="js/global/navbar.js" defer></script>
+        <script type="module" src="js/index.js" defer></script>
+     </head>
 
     <body>
         <header>
@@ -27,8 +29,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="justify-content-end">
-                    <input class="search-bar" type="search" placeholder="Куда пойдем?" aria-label="Search">
-                    <button class="btn btn-primary my-2 my-sm-0">
+                    <input class="search-bar" type="search" placeholder="Куда пойдем?" aria-label="Search" id="search-input">
+                    <button class="btn btn-primary my-2 my-sm-0" id="search-button">
                         <div class="fa fa-search"></div>
                     </button>
                 </div>
@@ -79,25 +81,26 @@
                             <div class="row scr-end-window-text">
                                 <br> Заполните анкету, чтобы подобрать лучшие места для отдыха в Челябинске!  
                             </div>
+                                <form>
                                 <ul class="list-group">
                                 <div class="form-text-header">С кем планируете отдыхать?</div>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="Radios1" id="exampleRadios1" value="option1">
+                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="один">
                                     <label class="form-check-label" for="exampleRadios1">
                                   Один
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="Radios1" id="exampleRadios1" value="option1">
+                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="с парой">
                                     <label class="form-check-label" for="exampleRadios1">
                                   С парой
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="Radios1" id="exampleRadios1" value="option1">
+                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="для детей">
                                     <label class="form-check-label" for="exampleRadios1">
                                   С детьми
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="Radios1" id="exampleRadios1" value="option1">
+                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="блять а какой тэг??">
                                     <label class="form-check-label" for="exampleRadios1">
                                   С компанией
                                 </li>
@@ -105,12 +108,12 @@
                                 <ul class="list-group">
                                 <div class="form-text-header">В компании будет четвероногий друг? Это необходимо для подбора мест, доступных для посещения с животными</div>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="Radios2" id="exampleRadios2" value="option2">
+                                    <input class="form-check-input" type="radio" name="pet" id="exampleRadios2" value="можно с питомцами">
                                     <label class="form-check-label" for="exampleRadios2">
                                   Да
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="Radios2" id="exampleRadios2" value="option2">
+                                    <input class="form-check-input" type="radio" name="pet" id="exampleRadios2" value=null>
                                     <label class="form-check-label" for="exampleRadios2">
                                   Нет
                                 </li>
@@ -118,18 +121,22 @@
                                 <ul class="list-group">
                                     <div class="form-text-header">Вы планируете отдых в центре города?</div>
                                     <li class="list-group-item">
-                                        <input class="form-check-input" type="radio" name="Radios3" id="exampleRadios2" value="option3">
+                                        <input class="form-check-input" type="radio" name="cityCentre" id="exampleRadios2" value="центр">
                                         <label class="form-check-label" for="exampleRadios2">
                                       Да
                                     </li>
                                     <li class="list-group-item">
-                                        <input class="form-check-input" type="radio" name="Radios3" id="exampleRadios2" value="option3">
+                                        <input class="form-check-input" type="radio" name="cityCentre" id="exampleRadios2" value="не центр">
                                         <label class="form-check-label" for="exampleRadios2">
                                       Нет
                                     </li>
                                 </ul>
+                                </form>
+                                <div style="display: none;" id="form-error">
+                                    <p class="text-danger text-center">Заполните все поля</p>
+                                </div>
                             <div class="row scr-end-window-button-row">
-                                <button type="button" id= "orderButton" class="btn scr-end-window-button" data-bs-toggle="modal" data-bs-target="#exampleModal">Получить рекоммендации!</button>
+                                <button type="button" id= "orderButton" class="btn scr-end-window-button" >Получить рекоммендации!</button>
                             </div>
                         </div>
                     </div>

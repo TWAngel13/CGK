@@ -18,7 +18,8 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
         <script src="libs/jquery/jquery-3.6.0.min.js" defer></script>
-    </head>
+        <script type="module" src="js/global/navbar.js" defer></script>
+     </head>
 
     <body>
         <header>
@@ -27,8 +28,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="justify-content-end">
-                    <input class="search-bar" type="search" placeholder="Куда пойдем?" aria-label="Search">
-                    <button class="btn btn-primary my-2 my-sm-0">
+                    <input class="search-bar" type="search" placeholder="Куда пойдем?" aria-label="Search" id="search-input">
+                    <button class="btn btn-primary my-2 my-sm-0" id="search-button">
                         <div class="fa fa-search"></div>
                     </button>
                 </div>

@@ -54,9 +54,10 @@ router.post("/logout",async function(req,res){
     const userToken = String(req.body.token);
     if(!req.body.token){
         res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+        return;
     }
     await User.logout(userToken);
-    res.send(200).send("ok");
+    res.status(200).send({ok:"ok"});
 });
 router.post("/createReview",async function(req,res){
    const userToken = String(req.body.token)
