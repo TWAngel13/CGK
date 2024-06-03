@@ -17,7 +17,7 @@ module.exports = class Object{
             WHERE id=${value})"
         ,params)).exists
     }
-    static async getAllObjects(startPos,maxPos,sort,search,tags,categoryName){
+    static async getAllObjects(startPos,maxPos,sort,search,tags,categoryName,optionalTags){
         const params = {
             start:startPos,
             limit:maxPos,
