@@ -56,25 +56,26 @@ router.get("/list",async function(req,res){
     const maxSize = req.query.max<100?req.query.max:100
     const search = req.query.search?req.query.search:""
     const tags = req.query.tags?parseJSON(req.query.tags):null
-    console.log(tags);
+    const optionalTags = req.query.optionalTags?parseJSON(req.query.optionalTags):null
     const objectCategory = req.query.objectCategory?String(req.query.objectCategory):null
-    const result = await getListOfPlaces(startPos,maxSize,undefined,search,tags,objectCategory)
+    const result = await getListOfPlaces(startPos,maxSize,undefined,search,tags,objectCategory,optionalTags)
     if(result == InvalidParameters.code){
         res.status(InvalidParameters.statusCode).send({error:InvalidParameters.text})
         return;
     }
     res.status(200).send(result);
 });
-async function getListOfPlaces(_startPos,_maxPos,sort,_search,_tags,_objectCategory){
+async function getListOfPlaces(_startPos,_maxPos,sort,_search,_tags,_objectCategory,_optionalTags){
     const startPos = Number(_startPos)
     const maxPos = Number(_maxPos)
     const search = String(_search)
     const tags = _tags
+    const optionalTags = _optionalTags;
     const objectCategory = _objectCategory
-    if (!isInteger(startPos) || !isInteger(maxPos) || !isString(search) || (!isArrayOfStrings(tags) && tags !== null || tags===undefined)){
+    if (!isInteger(startPos) || !isInteger(maxPos) || !isString(search) || (!isArrayOfStrings(tags) && tags !== null || tags===undefined) || (!isArrayOfStrings(optionalTags) && optionalTags !== null || optionalTags===undefined)){
         return InvalidParameters.code
     }
-    return await Object.getAllObjects(startPos,maxPos,sort,search,tags,objectCategory);
+    return await Object.getAllObjects(startPos,maxPos,sort,search,tags,objectCategory,optionalTags);
 }
 async function getObjectInfo(_objectID,_startPos,_maxPos){
     const objectID = Number(_objectID)

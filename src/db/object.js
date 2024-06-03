@@ -26,6 +26,7 @@ module.exports = class Object{
             tags:tags,
             categoryName:categoryName,
         }
+        console.log(optionalTags)
         const list = await db.one(
             "SELECT \
                 JSON_AGG(DISTINCT x.*) as objects\
@@ -46,22 +47,27 @@ module.exports = class Object{
                 WHERE \
                     object.name LIKE '%${search:value}%'\
                     AND \
-                        ${categoryName} IS NOT NULL\
+                        (${categoryName} IS NOT NULL\
                         AND \
                         objectcategory.name = ${categoryName} \
                         OR \
                         ${categoryName} IS NULL\
                         AND \
-                        TRUE \
-                    AND \
-                        (COALESCE(${tags:list},'') = ''\
-                        OR \
-                        tag.name IN (${tags:list})) \
+                        TRUE) \
                 GROUP BY object.id\
                 HAVING \
                     CASE \
-                        WHEN (${tags:list}) IS NOT NULL THEN \
+                        WHEN (${tags:list}) IS NOT NULL AND (${optionalTags:list}) IS NOT NULL THEN \
                             COUNT(DISTINCT tag.name) = ARRAY_LENGTH(ARRAY[${tags:list}],1)\
+<<<<<<< HEAD
+=======
+                            AND \
+                            ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]  \
+                        WHEN (${tags:list}) IS NOT NULL THEN \
+                            ARRAY_AGG(DISTINCT tag.name) @> (ARRAY[${tags:list}])\
+                        WHEN (${optionalTags:list}) IS NOT NULL THEN \
+                            ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]\
+>>>>>>> 70a1c81 (поиск)
                         ELSE TRUE \
                     END \
                 OFFSET ${start}\
