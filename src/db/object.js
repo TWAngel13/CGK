@@ -59,15 +59,12 @@ module.exports = class Object{
                     CASE \
                         WHEN (${tags:list}) IS NOT NULL AND (${optionalTags:list}) IS NOT NULL THEN \
                             COUNT(DISTINCT tag.name) = ARRAY_LENGTH(ARRAY[${tags:list}],1)\
-<<<<<<< HEAD
-=======
                             AND \
                             ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]  \
                         WHEN (${tags:list}) IS NOT NULL THEN \
                             ARRAY_AGG(DISTINCT tag.name) @> (ARRAY[${tags:list}])\
                         WHEN (${optionalTags:list}) IS NOT NULL THEN \
                             ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]\
->>>>>>> 70a1c81 (поиск)
                         ELSE TRUE \
                     END \
                 OFFSET ${start}\
