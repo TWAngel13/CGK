@@ -61,13 +61,50 @@
             <button class="recommend-button" data-bs-toggle="modal" data-bs-target="#exampleModal">Получить рекомендации</button>
         </div>
         <div class="news-subtitle">Новости</div>
-        <div class="news-div">
-            <img class="news-img" src="images/news_img.png">
-            <div class="news-title">
-                Новость
+        <div class="row row-cols-1 row-cols-lg-4 g-6">
+            <div class="col">
+                <div class="news-div">
+                    <img class="news-img" src="images/news_img.png">
+                    <div class="news-title">
+                        Новость
+                    </div>
+                    <div class="news-text">
+                        Текст новости
+                    </div>
+                </div>
             </div>
-            <div class="news-text">
-                Текст новости
+            <div class="col">
+                  <div class="news-div">
+                      <img class="news-img" src="images/news_img.png">
+                      <div class="news-title">
+                          Новость
+                      </div>
+                      <div class="news-text">
+                          Текст новости
+                      </div>
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="news-div">
+                      <img class="news-img" src="images/news_img.png">
+                      <div class="news-title">
+                          Новость
+                      </div>
+                      <div class="news-text">
+                          Текст новости
+                      </div>
+                  </div>
+              </div>
+              <div class="col">
+                <div class="news-div">
+                    <img class="news-img" src="images/news_img.png">
+                    <div class="news-title">
+                        Новость
+                    </div>
+                    <div class="news-text">
+                        Текст новости
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -85,7 +122,7 @@
                                 <ul class="list-group">
                                 <div class="form-text-header">С кем планируете отдыхать?</div>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="один">
+                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="null">
                                     <label class="form-check-label" for="exampleRadios1">
                                   Один
                                 </li>
@@ -100,7 +137,7 @@
                                   С детьми
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="блять а какой тэг??">
+                                    <input class="form-check-input" type="radio" name="company" id="exampleRadios1" value="null">
                                     <label class="form-check-label" for="exampleRadios1">
                                   С компанией
                                 </li>
@@ -136,12 +173,12 @@
                                     <p class="text-danger text-center">Заполните все поля</p>
                                 </div>
                             <div class="row scr-end-window-button-row">
-                                <button type="button" id= "orderButton" class="btn scr-end-window-button" >Получить рекоммендации!</button>
+                                <button type="button" id= "orderButton" class="btn scr-end-window-button object-button" >Получить рекоммендации!</button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn scr-end-window-button" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn scr-end-window-button object-button" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
             </div>

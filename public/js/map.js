@@ -27,9 +27,9 @@ async function initMap() {
   );
 
   const colors = {
-    1: 'red',
-    2: 'green',
-    3: 'blue'
+    1: '#00254A',
+    2: '#0BC976',
+    3: '#EB8006'
   }
 
   const objects = (await api.getObjectsList()).objects;
