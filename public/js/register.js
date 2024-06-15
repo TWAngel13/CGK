@@ -20,7 +20,6 @@ async function register()
     const email = form.email.value;
     const password = form.password.value;
     const name = form.name.value;
-    console.log(errorText)
     if (name=="" || password=="" || email==""){
         setErrorText("Не все поля заполнены");
         return;
@@ -30,7 +29,6 @@ async function register()
         return;
     }
     const token = await api.registerUser(name,email,password);
-    console.log(token)
     if (token){
         if (token == -1){
             setErrorText("Пользователь уже существует");

@@ -20,7 +20,7 @@ router.post("/id/:id/",async function(req,res){
             res.status(NotExists.statusCode).send({error:NotExists.error});
             break;
         default:
-            res.status(200).send(result)
+            res.status(200).send({result:result})
     }
 });
 router.get("/id/:id/reviews/",async function(req,res){

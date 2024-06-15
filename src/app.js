@@ -2,10 +2,14 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+const firebase = require("./firebase/firebase");
+
 const authRoute = require("./routes/auth");
 const usersRoute = require("./routes/users");
 const objectsRoute = require("./routes/objects");
 const imagesRoute = require("./routes/images")
+
+firebase.init();
 app.use(express.json());
 app.use("/api/auth/",authRoute)
 app.use("/api/users/",usersRoute)

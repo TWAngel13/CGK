@@ -92,7 +92,7 @@ export async function getUserInfo(id) {
     const response = await _getUserInfo(id);
     if (response.ok === true)
     {
-        return await response.json();
+        return (await response.json()).result;
     }
     else
     {
@@ -159,7 +159,9 @@ export async function getImage(id)
     });
     if (response.ok === true)
     {
-        return await response.blob();
+        const imageUrl = (await response.json()).url;
+        const image = await fetch(imageUrl);
+        return await image.blob();
     }
     else
     {
@@ -261,7 +263,7 @@ export async function addToFavourites(token,objectID){
     });
     if (response.ok === true)
     {
-        return await response.json()
+        return await true;
     }
     else
     {
@@ -279,7 +281,7 @@ export async function removeFromFavourites(token,objectID){
     });
     if (response.ok === true)
     {
-        return await response.json()
+        return await true;
     }
     else
     {
@@ -310,7 +312,7 @@ export async function getUserInfoAuth(token) {
     const response = await _getUserInfo(undefined,token);
     if (response.ok === true)
     {
-        return await response.json();
+        return (await response.json()).result;
     }
     else
     {

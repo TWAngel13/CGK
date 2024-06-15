@@ -13,7 +13,13 @@ async function init()
     userInfo = await api.getUserInfoAuth(token);
     if(!userInfo){
         logout();
+        return;
     }
+    const favourites_parsed = await JSON.stringify(userInfo.favourites);
+    const reviews_parsed = await JSON.stringify(userInfo.review);
+    localStorage.setItem("user_favourites",favourites_parsed);
+    localStorage.setItem("user_reviews",reviews_parsed)
+    localStorage.setItem("user_name",userInfo.name);
     logoutButton.onclick = logout;
     username.textContent = userInfo.name;
     if(userInfo.favourites[0] != null){
@@ -88,11 +94,11 @@ async function loadMoreFavourites(current,amount){
             if (userInfo.favourites[i]==undefined){
                 return;
             }
-            const object = (await api.getObjectInfo(userInfo.favourites[i].objectid)).info;
+            const object = (await api.getObjectInfo(userInfo.favourites[i])).info;
             const div = createFavourite(object);
             favourites.appendChild(div)
         }
-        if (current+amount < maxLength){
+        if (current+amount < userInfo.favourites.length){
             favourites.appendChild(showMoreButton(() => {
                 const _current = current+amount;
                 const _amount = amount;
@@ -115,7 +121,7 @@ async function loadMoreReviews(current,amount){
             const reviewDiv = createReview(object,review);
             reviews.appendChild(reviewDiv)
         }
-        if (current+amount <= userInfo.review.length){
+        if (current+amount < userInfo.review.length){
             reviews.appendChild(showMoreButton(() => {
                 const _current = current+amount;
                 const _amount = amount;

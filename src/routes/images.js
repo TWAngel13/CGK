@@ -3,6 +3,7 @@ const router = express.Router();
 const {isInteger, isString, isArrayOfStrings} = require("../sanityCheck");
 const Object = require('../db/object');
 const { InvalidParameters, NotExists } = require("../constaints/errorCodes");
+const FireBase = require("../firebase/firebase");
 module.exports = router;
 ////
 const places = {
@@ -21,7 +22,8 @@ router.get("/id/:id/",async function(req,res){
             res.status(NotExists.statusCode).send({error:NotExists.error});
             break;
         default:
-            res.status(200).setHeader('content-type', 'image/png').send(result);
+            const url = FireBase.getImageUrl(result);
+            res.status(200).send({url:url});
     }
 });
 

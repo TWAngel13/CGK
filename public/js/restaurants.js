@@ -11,7 +11,7 @@ async function loadMore()
         for(const object of loadedObjects)
         {
             var objectInfo = (await api.getObjectInfo(object.id)).info;
-            showObject(object, objectInfo);
+            objectsCommon.showObject(object, objectInfo,"restaurant",objectsDiv);
         }
     }
     else
@@ -20,67 +20,7 @@ async function loadMore()
     }
 }
 
-async function showObject(object, objectInfo)
-{
-    var objectDiv = document.createElement('div');
-    var leftBlockDiv = document.createElement('div');
-    var rightBlockDiv = document.createElement('div');
-    var img = document.createElement('img');
-    var objectName = document.createElement('div');
-    var descriptionDiv = document.createElement('div');
-    console.log(object);
 
-    if (object.images[0] != null)
-    {
-        var imgBlob = await api.getImage(object.images[0]);
-        var imgURL = URL.createObjectURL(imgBlob);
-        img.setAttribute('src', imgURL)
-    }
-
-    objectName.textContent = object.name;
-    if(objectInfo.attributes != null)
-    {
-        var addressDiv = document.createElement('div');
-        var phoneDiv = document.createElement('div');
-        addressDiv.textContent = objectInfo.attributes.address;
-        phoneDiv.textContent = objectInfo.attributes.phone.split(',')[0];
-        descriptionDiv.appendChild(addressDiv);
-        descriptionDiv.appendChild(phoneDiv);
-        //descriptionDiv.textContent = objectInfo.attributes.address + objectInfo.attributes.phone;
-    }
-
-    objectDiv.classList.add('restaurant-div');
-    img.classList.add('restaurant-img');
-    objectName.classList.add('restaurant-title');
-    descriptionDiv.classList.add('restaurant-text');
-    leftBlockDiv.classList.add('restaurant-text-block');
-    rightBlockDiv.classList.add('restaurant-text-block');
-
-    objectDiv.onclick = () =>
-        {
-            window.location.href = './object.html?id=' + object.id;
-        }
-
-    objectDiv.appendChild(leftBlockDiv);
-    objectDiv.appendChild(rightBlockDiv);
-    leftBlockDiv.appendChild(img);
-
-    rightBlockDiv.appendChild(objectName);
-    rightBlockDiv.appendChild(descriptionDiv);
-    objectsDiv.appendChild(objectDiv);
-
-    if(false)
-    {
-        var favoriteIcon = document.createElement('img');
-        favoriteIcon.src = "images/heart.svg";
-        favoriteIcon.classList.add('favorite-icon');
-        favoriteIcon.onclick = () =>
-        {
-            document.querySelectorAll('div').forEach((e) => {e.remove();})
-        }
-        leftBlockDiv.appendChild(favoriteIcon);
-    }
-}
 
 document.getElementById("load-more-button").addEventListener('click', () => 
 {

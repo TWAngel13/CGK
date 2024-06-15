@@ -41,7 +41,7 @@ module.exports = class User{
                 users.name,\
                 users.id ,\
                 JSON_AGG(DISTINCT review) AS review, \
-                JSON_AGG(DISTINCT favourites) AS favourites \
+                JSON_AGG(DISTINCT favourites.objectid) AS favourites \
             FROM users \
             LEFT JOIN review \
             ON users.id = review.userid \
@@ -56,7 +56,7 @@ module.exports = class User{
             userID:userID,
             objectID:objectID,
         }
-        return (await db.one(
+        return (await db.none(
             "INSERT INTO favourites (userid,objectid) \
             VALUES(${userID},${objectID}) \
             ON CONFLICT (userid,objectid) DO NOTHING \
@@ -82,11 +82,14 @@ module.exports = class User{
             reviewID:reviewID,
         }
         const image = (await db.oneOrNone(
-            "INSERT INTO images (objectid,reviewid,image) \
-            VALUES(${objectID},${reviewID},${image})"
+            "INSERT INTO images (objectid,reviewid) \
+            VALUES(${objectID},${reviewID}) \
+            RETURNING id"
         ,params))
+        console.log(image);
+
         if(image){
-            return image.image
+            return image
         }
         else{
             return null
@@ -220,7 +223,7 @@ module.exports = class User{
         return (await db.any(
             "SELECT\
                 favourites.objectid,\
-                JSON_AGG(json_build_object('id', object.id, 'name', object.name)) as object \
+                ARRAY_AGG(json_build_object('id', object.id, 'name', object.name)) as object \
             FROM favourites \
             LEFT JOIN object \
             ON object.id = favourites.objectid \

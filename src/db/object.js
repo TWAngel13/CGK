@@ -120,6 +120,7 @@ module.exports = class Object{
         const info = await db.one(
             "SELECT \
                 object.*,\
+                JSON_AGG(DISTINCT objectcategory.name) AS categoryName,\
                 ARRAY_AGG(DISTINCT images.id) AS images, \
                 JSON_AGG(DISTINCT businesshours) AS workingHours, \
                 COALESCE(json_object_agg(objectattribute.attributename,objectattribute.attributevalue) FILTER (WHERE objectattribute.attributename IS NOT NULL), '{}'::JSON) as attributes,\
@@ -136,6 +137,8 @@ module.exports = class Object{
             ON object.id = businesshours.objectid\
             LEFT JOIN objectattribute \
             ON object.id = objectattribute.objectid \
+            LEFT JOIN objectcategory \
+            ON object.category = objectcategory.id \
             WHERE object.id = ${objectID} \
             GROUP BY object.id\
             "
@@ -174,14 +177,14 @@ module.exports = class Object{
             imageID:imageID
         }
         const image = (await db.oneOrNone(
-            "SELECT images.image\
+            "SELECT images.id\
             FROM images \
             WHERE id = ${imageID} \
             LIMIT 1 \
             "
         ,params))
         if(image){
-            return image.image
+            return image.id
         }
         else{
             return null

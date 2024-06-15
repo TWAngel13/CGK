@@ -1,5 +1,6 @@
 
 import * as api from "./api.js"
+import { addToFavouritesButton } from "./objectsCommon.js";
 
 async function init()
 {
@@ -16,6 +17,10 @@ async function init()
     document.getElementById('address-div').textContent = objectInfo.info.attributes.address;
     document.getElementById('phone-div').textContent = objectInfo.info.attributes.phone;
 
+    const favButton = await addToFavouritesButton(Number(objectID));
+    favButton.style.position = "static";
+    document.getElementById('fav-button').appendChild(favButton);
+    
     for(var i = 0; i < objectInfo.reviews.length; i++)
     {
         var reviewDiv = document.createElement('div');

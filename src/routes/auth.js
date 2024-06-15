@@ -87,10 +87,12 @@ router.post("/addFavourites",async function(req,res){
     const objectID = Number(req.body.objectID);
     if(!req.body.token || !req.body.objectID ){
      res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+     return;
     }
     const userID = await User.validateToken(userToken)
     if(!isInteger(objectID) || !await Object.exists(objectID) || !userID){
      res.status(NotExists.statusCode).send({error:NotExists.error})
+     return;
     }
     await User.addFavourites(userID,objectID)
     res.status(200).send("ok")
@@ -100,10 +102,12 @@ router.post("/addFavourites",async function(req,res){
     const objectID = Number(req.body.objectID);
     if(!req.body.token || !req.body.objectID ){
      res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+     return;
     }
     const userID = await User.validateToken(userToken)
     if(!isInteger(objectID) || !await Object.exists(objectID) || !userID){
      res.status(NotExists.statusCode).send({error:NotExists.error})
+     return;
     }
     await User.removeFavourites(userID,objectID)
     res.status(200).send("ok")
