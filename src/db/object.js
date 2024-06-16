@@ -33,6 +33,19 @@ module.exports = class Object{
             optionalTags:optionalTags,
             categoryName:categoryName,
         }
+        let optionalQuery = "";
+        if (optionalTags){
+            let i = 0;
+            optionalTags.forEach(array => {
+                const check = ` ARRAY_AGG(DISTINCT tag.name) && ARRAY[\${optionalTags${i}:list}] \n`;
+                params[`optionalTags${i}`] = array;
+                i+=1;
+                if(optionalQuery != ""){
+                    optionalQuery += " AND ";
+                }
+                optionalQuery += check;
+            });
+        }
         const list = await db.one(
             "SELECT \
                 JSON_AGG(DISTINCT x.*) as objects\
@@ -68,12 +81,12 @@ module.exports = class Object{
                             AND \
                             ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]  \
                         WHEN (${tags:list}) IS NOT NULL THEN \
-                            ARRAY_AGG(DISTINCT tag.name) @> (ARRAY[${tags:list}])\
-                        WHEN (${optionalTags:list}) IS NOT NULL THEN \
-                            ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]\
-                        ELSE TRUE \
-                    END \
-                OFFSET ${start}\
+                            ARRAY_AGG(DISTINCT tag.name) @> (ARRAY[${tags:list}]) " +
+                        (optionalQuery!=""?"WHEN (${optionalTags:list}) IS NOT NULL THEN ":" ") +
+                            (optionalQuery!=""?optionalQuery:" ") +
+                    "ELSE TRUE \
+            END \
+            OFFSET ${start}\
                 LIMIT ${limit}\
             ) AS x\
             "

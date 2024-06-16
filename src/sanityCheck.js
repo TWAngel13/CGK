@@ -9,6 +9,7 @@ module.exports = {
     isInteger,//for me integer == number
     isBoolean,
     isArrayOfStrings,
+    isArrayOfArrayOfStrings,
 }
 //without this sql will die in agony
 function isString(variable){
@@ -26,10 +27,26 @@ function isBoolean(variable){
 function isArrayOfStrings(variable){
     return _isArrayOfType(variable,variableTypes.String)
 }
+function isArrayOfArrayOfStrings(variable){
+    if (!Array.isArray(variable)){
+        return false;
+    }
+    let res = true;
+    variable.forEach(variable => {
+        if (!isArrayOfStrings(variable)){
+            res = false;
+            return;
+        }
+    });
+    return res;
+}
 function _compareTypes(variable,type){
     return ((typeof variable == type));
 }
 function _isArrayOfType(variable,type){
+    if (typeof variable != "object"){
+        return false;
+    }
     if(!variable || !Array.isArray(variable) || variable.length == 0){
         return false
     }

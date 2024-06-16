@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {isInteger, isString, isArrayOfStrings} = require("../sanityCheck");
+const {isInteger, isString, isArrayOfStrings, isArrayOfArrayOfStrings} = require("../sanityCheck");
 const Object = require('../db/object')
 const {InvalidParameters,NotExists} = require('../constaints/errorCodes');
 const { isNull } = require("tls");
@@ -72,7 +72,7 @@ async function getListOfPlaces(_startPos,_maxPos,sort,_search,_tags,_objectCateg
     const tags = _tags
     const optionalTags = _optionalTags;
     const objectCategory = _objectCategory
-    if (!isInteger(startPos) || !isInteger(maxPos) || !isString(search) || (!isArrayOfStrings(tags) && tags !== null || tags===undefined) || (!isArrayOfStrings(optionalTags) && optionalTags !== null || optionalTags===undefined)){
+    if (!isInteger(startPos) || !isInteger(maxPos) || !isString(search) || (!isArrayOfStrings(tags) && tags !== null || tags===undefined) || ( optionalTags !== null && !isArrayOfArrayOfStrings(optionalTags) || optionalTags===undefined)){
         return InvalidParameters.code
     }
     return await Object.getAllObjects(startPos,maxPos,sort,search,tags,objectCategory,optionalTags);
