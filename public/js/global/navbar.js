@@ -14,8 +14,11 @@ async function search(){
 
 export async function notifyError(message,closeAfter = 5000){
     errorMessage.children[0].innerHTML = message;
+    if(errorMessage.style.display == ""){
+        clearTimeout(errorMessage.timeout);
+    }
     errorMessage.style.display = "";
-    setTimeout(()=>{
+    errorMessage.timeout = setTimeout(()=>{
         errorMessage.style.display = "none";
     },closeAfter);
 }

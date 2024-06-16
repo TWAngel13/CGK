@@ -9,17 +9,19 @@ async function init()
     const search = _search?_search.substring(1,_search.length-1):undefined;
     const _tags = (new URLSearchParams(window.location.search)).get('tags');
     const tags = await JSON.parse(_tags);
+    const _optionalTags = (new URLSearchParams(window.location.search)).get('optionalTags');
+    const optionalTags = await JSON.parse(_optionalTags);
     if (search){
         searchInput.value = search;
     }
     const loadButton = document.getElementById("load-more-button");
-    loadButton.onclick = () => {loadMore(search,tags)};
-    loadMore(search,tags);
+    loadButton.onclick = () => {loadMore(search,tags,optionalTags)};
+    loadMore(search,tags,optionalTags);
 
 }
-async function loadMore(search,tags)
+async function loadMore(search,tags,optionalTags)
 {
-    var loadedObjects = (await objectsCommon.searchObjects(search,2,tags));
+    var loadedObjects = (await objectsCommon.searchObjects(search,2,tags,optionalTags));
     if(loadedObjects)
     {
         for(const object of loadedObjects)

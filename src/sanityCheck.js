@@ -31,8 +31,13 @@ function isArrayOfArrayOfStrings(variable){
     if (!Array.isArray(variable)){
         return false;
     }
-    let res = true;
+    let res = false;
     variable.forEach(variable => {
+        res = true;
+        if (!Array.isArray(variable)){
+            res = false;
+            return;
+        }
         if (!isArrayOfStrings(variable)){
             res = false;
             return;

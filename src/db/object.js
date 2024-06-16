@@ -46,6 +46,10 @@ module.exports = class Object{
                 optionalQuery += check;
             });
         }
+        console.log("COUNT(DISTINCT tag.name) = ARRAY_LENGTH(ARRAY[${tags:list}],1)" +
+        (optionalQuery!=""?" AND ":" ") + 
+            (optionalQuery!=""?optionalQuery:" ") )
+            console.log(params.optionalTags0)
         const list = await db.one(
             "SELECT \
                 JSON_AGG(DISTINCT x.*) as objects\
@@ -77,10 +81,10 @@ module.exports = class Object{
                 HAVING \
                     CASE \
                         WHEN (${tags:list}) IS NOT NULL AND (${optionalTags:list}) IS NOT NULL THEN \
-                            COUNT(DISTINCT tag.name) = ARRAY_LENGTH(ARRAY[${tags:list}],1)\
-                            AND \
-                            ARRAY_AGG(DISTINCT tag.name) && ARRAY[${optionalTags:list}]  \
-                        WHEN (${tags:list}) IS NOT NULL THEN \
+                            ARRAY_AGG(DISTINCT tag.name) @> (ARRAY[${tags:list}])" +
+                            (optionalQuery!=""?" AND ":" ") + 
+                                (optionalQuery!=""?optionalQuery:" ") +
+                        "WHEN (${tags:list}) IS NOT NULL THEN \
                             ARRAY_AGG(DISTINCT tag.name) @> (ARRAY[${tags:list}]) " +
                         (optionalQuery!=""?"WHEN (${optionalTags:list}) IS NOT NULL THEN ":" ") +
                             (optionalQuery!=""?optionalQuery:" ") +
