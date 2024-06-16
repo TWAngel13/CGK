@@ -120,3 +120,26 @@ export async function addToFavouritesButton(objectID){
     }
     return favoriteIcon;
 }
+export async function createWorkingHoursDiv(objectInfo,visible = true){
+    const days = ["пн","вт","ср","чт","пт","сб","вс"]
+    const workingHours = objectInfo.info.workinghours;
+    if(workingHours[0] == null){
+        return;
+    }
+    const mainDiv = document.createElement("div");
+    new ResizeObserver(() => {
+        mainDiv.style.marginTop = -mainDiv.clientHeight + "px"
+    }).observe(mainDiv)
+    mainDiv.className = "working-hours";
+    workingHours.forEach(element => {
+        const opentime = element.opentime.substring(0,element.opentime.lastIndexOf(":"));
+        const closetime = element.closetime.substring(0,element.closetime.lastIndexOf(":"));
+        const dayofweek = element.dayofweek;
+        const textDiv = document.createElement("div");
+        textDiv.className = "font-monospace"
+        textDiv.textContent = `${days[dayofweek-1]}: ${opentime} - ${closetime}`;
+        mainDiv.appendChild(textDiv);
+    });
+    mainDiv.style.display = visible?"":"none";
+    return mainDiv
+}

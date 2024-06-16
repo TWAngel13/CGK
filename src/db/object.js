@@ -46,10 +46,6 @@ module.exports = class Object{
                 optionalQuery += check;
             });
         }
-        console.log("COUNT(DISTINCT tag.name) = ARRAY_LENGTH(ARRAY[${tags:list}],1)" +
-        (optionalQuery!=""?" AND ":" ") + 
-            (optionalQuery!=""?optionalQuery:" ") )
-            console.log(params.optionalTags0)
         const list = await db.one(
             "SELECT \
                 JSON_AGG(DISTINCT x.*) as objects\

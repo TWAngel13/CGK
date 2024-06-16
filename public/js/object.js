@@ -1,13 +1,12 @@
 
 import * as api from "./api.js"
-import { addToFavouritesButton } from "./objectsCommon.js";
+import { addToFavouritesButton, createWorkingHoursDiv } from "./objectsCommon.js";
 
 async function init()
 {
     
     var objectID = (new URLSearchParams(window.location.search)).get('id');
     var objectInfo = await api.getObjectInfo(objectID);
-
     document.getElementById('object-name-div').textContent = objectInfo.info.name;
 
     var imgBlob = await api.getImage(objectInfo.info.images[0]);
@@ -20,7 +19,22 @@ async function init()
     const favButton = await addToFavouritesButton(Number(objectID));
     favButton.style.position = "static";
     document.getElementById('fav-button').appendChild(favButton);
-    
+    const workingHoursSubDiv = await createWorkingHoursDiv(objectInfo,false);
+    const workingHoursDiv = document.getElementById('working-hours-div')
+    if (workingHoursSubDiv){
+        const workingHoursImg = document.getElementById('working-hours-img');
+        workingHoursImg.style.display = "";
+        workingHoursDiv.childNodes[1].style.display = ""
+        workingHoursDiv.appendChild(workingHoursSubDiv);
+        workingHoursDiv.onclick = () => {
+            workingHoursSubDiv.style.display = ""
+        }
+        workingHoursDiv.onmouseleave = () => {
+            workingHoursSubDiv.style.display = "none"
+        }
+    } else {
+        workingHoursDiv.childNodes[1].style.display = "none"
+    }
     for(var i = 0; i < objectInfo.reviews.length; i++)
     {
         var reviewDiv = document.createElement('div');
