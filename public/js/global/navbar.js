@@ -12,7 +12,7 @@ async function search(){
     window.location.href = `./search.html?search=\"${searchInput.value}\"`;
 }
 
-export async function notifyError(message,closeAfter = 5000){
+export async function notifyError(message,closeAfter = 2500){
     errorMessage.children[0].innerHTML = message;
     if(errorMessage.style.display == ""){
         clearTimeout(errorMessage.timeout);

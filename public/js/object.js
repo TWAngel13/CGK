@@ -7,12 +7,15 @@ async function init()
     
     var objectID = (new URLSearchParams(window.location.search)).get('id');
     var objectInfo = await api.getObjectInfo(objectID);
+    if (objectInfo === undefined){
+        window.location.href = '/';
+    }
     document.getElementById('object-name-div').textContent = objectInfo.info.name;
 
     var imgBlob = await api.getImage(objectInfo.info.images[0]);
     var imgURL = URL.createObjectURL(imgBlob);
     document.getElementById('object-img').setAttribute('src', imgURL);
-
+    document.getElementById('object-img').style.opacity = 100;
     document.getElementById('address-div').textContent = objectInfo.info.attributes.address;
     document.getElementById('phone-div').textContent = objectInfo.info.attributes.phone;
 
@@ -73,6 +76,8 @@ async function init()
         document.getElementById('review-container-div').appendChild(reviewDiv);
         console.log(await api.getObjectsList("драмы"));
     }
+    document.getElementById("outer-loader").remove()
+    document.getElementById("main-div").style.display = ""
 }
 
 init();

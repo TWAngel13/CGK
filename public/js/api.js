@@ -319,6 +319,43 @@ export async function getUserInfoAuth(token) {
         console.log(response);
     }
 }
+//news
+export async function getNewsList(
+    startPos = undefined,
+    maxPlaces = undefined,
+){
+    const params = [
+        startPos,
+        maxPlaces,
+    ];
+    const paramsName = ["start","max"];
+    const response = await fetch("/api/news/list" +  _paramsToStr(params,paramsName), {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true)
+    {
+        return await response.json();
+    }
+    else
+    {
+        console.log(response);
+    }
+}
+export async function getNews(id) {
+    const response = await fetch("/api/news/id/" + id, {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true)
+    {
+        return await response.json();
+    }
+    else
+    {
+        console.log(response);
+    }
+}
 //misc
 function _paramsToStr(params,paramsName){
     let str = "?";

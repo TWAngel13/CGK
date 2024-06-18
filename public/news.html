@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Страница объекта</title>
+        <title>Новости</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,11 +18,11 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
         <script src="libs/jquery/jquery-3.6.0.min.js" defer></script>
-        <script type="module" src="js/object.js" defer></script>
+        <script type="module" src="js/news.js" defer></script>
         <script type="module" src="js/global/navbar.js" defer></script>
      </head>
 
-    <body class="d-flex flex-column" style="height: 100vh">
+     <body class="d-flex flex-column" style="height: 100vh">
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -55,62 +55,24 @@
                     </div>
                 </div>
             </nav>
-            <div style="display: none;" id="error-message">
-                <p class="text-danger text-center"></p>
-            </div>
         </header>
         <div class="d-flex flex-grow-1 h-100 justify-content-center align-items-center" id="outer-loader" >
             <span class="loader" id="loader"></span>
         </div>
-        <div class="objects-content" style="display: none;" id="main-div">
-            <div id="object-name-div" class="news-subtitle">НАЗВАНИЕ</div>
-            <img id="object-img" class="object-img" style="opacity:0"> <!--icon  src="images/image-road.png"-->
+        <div class="objects-content" id="main-div" style="display:none";>
+            <div id="news-article" class="news-subtitle"></div>
+            <img id="news-img" class="object-img" style="display:none"> <!--icon-->
+            <div class="object-info-container" style="display: flex;">
+                <div class="object-info-logo">
+                    <img class="object-attribute-item" src="images/timePoint.svg" id="news-date-img" style="display:none" />
+                </div>
+                <div id="news-date" class="object-info" >
+                    <div style="display:none;"></div>
+                </div>
+            </div>
             <div class="object-info-container">
-                <div class="object-info">
-                    <div class="object-info-logo">
-                        <img class="object-attribute-item" src="images/mapPoint.svg" />
-                    </div>
-                    <div id="address-div" class="object-info-text">
-                        Улица
-                    </div>
-                </div>
-                <div class="object-info">
-                    <div class="object-info-logo">
-                        <img class="object-attribute-item" src="images/phonePoint.svg" />
-                    </div>
-                    <div id="phone-div" class="object-info-text">
-                        8 800 555 35 35
-                    </div>
-                </div>
-                <div class="object-info">
-                    <div style="display: flex;">
-                        <div class="object-info-logo">
-                            <img class="object-attribute-item" src="images/timePoint.svg" id="working-hours-img" style="display:none" />
-                        </div>
-                        <div id="working-hours-div" class="object-info-text" >
-                            <div style="display:none; color:blue; text-decoration:underline;">&#8203; Время работы</div>
-                        </div>
-                        <div id="fav-button">
-                    </div>
-                </div>
-            </div>
-            <div class="object-images-container">
-
-            </div>
-            <button class="object-button" onclick="window.location.replace('map.html')">В ПУТЬ</button>
-            <button class="object-button">НАПИСАТЬ ОТЗЫВ</button>
-            <div id="review-container-div" class="object-review-container">
-                <div class="object-review-subtitle">ОТЗЫВЫ</div>
-                <div class="review-card">
-                    <div>Имя Имя</div>
-                    <div>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div>
-                    <div>Текст отзыва</div>
+                <div class="object-info" id="news-body">
+                    
                 </div>
             </div>
         </div>
