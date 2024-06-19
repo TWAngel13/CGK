@@ -102,7 +102,7 @@ module.exports = class Object{
         //sending all binary images in single response too slow,so i will send only id`s
         const reviews = await db.any(
             "SELECT\
-                review.*,\
+                review.*\
             FROM review \
             WHERE review.object = ${objectID} \
             GROUP BY review.id\
