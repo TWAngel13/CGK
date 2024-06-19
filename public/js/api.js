@@ -245,7 +245,7 @@ export async function createReview(token,rating,objectID,reviewText = undefined,
     });
     if (response.ok === true)
     {
-        return await response.json()
+        return;
     }
     else
     {

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Страница объекта</title>
+        <title>ЧеГдеКуда - рестораны</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,11 +18,11 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
         <script src="libs/jquery/jquery-3.6.0.min.js" defer></script>
-        <script type="module" src="js/object.js" defer></script>
+        <script type="module" src="js/createReview.js" defer></script>
         <script type="module" src="js/global/navbar.js" defer></script>
      </head>
 
-    <body class="d-flex flex-column" style="height: 100vh">
+     <body class="d-flex flex-column" style="height: 100vh">
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto navbar-menu">
-                        <a href="./index.html#main" class="nav-item nav-link">Главная</a>
+                        <a href="./index.html" class="nav-item nav-link">Главная</a>
                     </div>
                     <div class="navbar-nav ms-auto navbar-menu">
                         <a href="./entertainments.html" class="nav-item nav-link">Что посетить?</a>
@@ -63,56 +63,28 @@
             <span class="loader" id="loader"></span>
         </div>
         <div class="objects-content" style="display: none;" id="main-div">
-            <div id="object-name-div" class="news-subtitle">НАЗВАНИЕ</div>
-            <img id="object-img" class="object-img" style="opacity:0"> <!--icon  src="images/image-road.png"-->
+            <div id="objects-list-div">
+            </div>
             <div class="object-info-container">
                 <div class="object-info">
-                    <div class="object-info-logo">
-                        <img class="object-attribute-item" src="images/mapPoint.svg" />
+                    <div id="working-hours-div" class="object-info-text" >
+                        <div>Оценка</div>
                     </div>
-                    <div id="address-div" class="object-info-text">
-                        Улица
-                    </div>
-                </div>
-                <div class="object-info">
-                    <div class="object-info-logo">
-                        <img class="object-attribute-item" src="images/phonePoint.svg" />
-                    </div>
-                    <div id="phone-div" class="object-info-text">
-                        8 800 555 35 35
-                    </div>
-                </div>
-                <div class="object-info">
                     <div style="display: flex;">
-                        <div class="object-info-logo">
-                            <img class="object-attribute-item" src="images/timePoint.svg" id="working-hours-img" style="display:none" />
-                        </div>
-                        <div id="working-hours-div" class="object-info-text" >
-                            <div style="display:none; color:blue; text-decoration:underline;">&#8203; Время работы</div>
-                        </div>
-                        <div id="fav-button">
+                        <span class="fa fa-star " style="font-size: 40px; cursor:pointer;" id="star1"></span>
+                        <span class="fa fa-star " style="font-size: 40px; cursor:pointer;" id="star2"></span>
+                        <span class="fa fa-star " style="font-size: 40px; cursor:pointer;" id="star3"></span>
+                        <span class="fa fa-star " style="font-size: 40px; cursor:pointer;" id="star4"></span>
+                        <span class="fa fa-star " style="font-size: 40px; cursor:pointer;" id="star5"></span>
+                    </div>
+                    <div id="working-hours-div" class="object-info-text" >
+                        <div>Отзыв</div>
                     </div>
                 </div>
             </div>
-            <div class="object-images-container">
-
-            </div>
-            <button class="object-button" onclick="window.location.replace('map.html')">В ПУТЬ</button>
-            <button class="object-button" id="create-review">НАПИСАТЬ ОТЗЫВ</button>
-            <div id="review-container-div" class="object-review-container">
-                <div class="object-review-subtitle">ОТЗЫВЫ</div>
-                <div class="review-card">
-                    <div>Имя Имя</div>
-                    <div>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div>
-                    <div>Текст отзыва</div>
-                </div>
-            </div>
+            <textarea class="form-control" id="text-review"  style="resize:none;height: 30vh;" aria-label="With textarea"></textarea>
+            <button class="object-button" id="publish-review">ОТПРАВИТЬ</button>
+            
         </div>
     </body>
 </html>

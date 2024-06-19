@@ -1,11 +1,11 @@
 
 import * as api from "./api.js"
 import { addToFavouritesButton, createWorkingHoursDiv } from "./objectsCommon.js";
-
+const createReviewButton = document.getElementById("create-review");
+const objectID = (new URLSearchParams(window.location.search)).get('id');
 async function init()
 {
-    
-    var objectID = (new URLSearchParams(window.location.search)).get('id');
+    createReviewButton.onclick = createReview;
     var objectInfo = await api.getObjectInfo(objectID);
     if (objectInfo === undefined){
         window.location.href = '/';
@@ -79,5 +79,13 @@ async function init()
     document.getElementById("outer-loader").remove()
     document.getElementById("main-div").style.display = ""
 }
-
+async function createReview() {
+    const token = localStorage.getItem("auth_token");
+    if (token && api.getUserInfoAuth(token)){
+        window.location.href = './createReview.html?id=' + objectID;
+    } else {
+        createReviewButton.textContent = "СПЕРВА ВОЙДИТЕ В АККАУНТ"
+        createReviewButton.className = "object-button-red"
+    }
+}
 init();
