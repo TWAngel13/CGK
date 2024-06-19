@@ -24,6 +24,7 @@ router.get("/id/:id/",async function(req,res){
         default:
             const url = FireBase.getImageUrl(result);
             res.status(200).send({url:url});
+            return;
     }
 });
 

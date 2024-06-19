@@ -67,10 +67,12 @@ router.post("/createReview",async function(req,res){
    const images = req.body.images?parseJSON(req.body.image):null
    if(!req.body.token || !req.body.objectID || !req.body.rating){
     res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+    return;
    }
    const userID = await User.validateToken(userToken)
    if(!isInteger(objectID) || !await Object.exists(objectID) || !userID){
     res.status(NotExists.statusCode).send({error:NotExists.error})
+    return;
    }
    const reviewID = await User.createReview(userID,userRating,objectID,reviewText)
    if(images){
@@ -81,6 +83,7 @@ router.post("/createReview",async function(req,res){
         });
    }
    res.status(200).send("ok")
+   return;
 });
 router.post("/addFavourites",async function(req,res){
     const userToken = String(req.body.token)
@@ -111,6 +114,7 @@ router.post("/addFavourites",async function(req,res){
     }
     await User.removeFavourites(userID,objectID)
     res.status(200).send("ok")
+    return;
  });
 router.post("/uploadImageToReview",async function(req,res){
     const image = String(req.body.image)
@@ -119,16 +123,20 @@ router.post("/uploadImageToReview",async function(req,res){
     const token = String(req.body.token)
     if(!req.body.image || !req.body.objectID || !req.body.reviewID || !req.body.token){
      res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+     return;
     }
     if(!isString(image) || !isString(objectID) || !isInteger(reviewID) || !isString(token)){
         res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+        return;
     }
     const userID = await User.validateToken(token)
     if(!await Object.exists(objectID) || !userID){
      res.status(NotExists.statusCode).send({error:NotExists.error})
+     return;
     }
     
     res.status(200).send("ok")
+    return;
  });
  function parseJSON(stream){
     try{
