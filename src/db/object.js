@@ -103,10 +103,7 @@ module.exports = class Object{
         const reviews = await db.any(
             "SELECT\
                 review.*,\
-                ARRAY_AGG(images.id) AS images \
             FROM review \
-            LEFT JOIN images \
-            ON review.id = images.reviewid \
             WHERE review.object = ${objectID} \
             GROUP BY review.id\
             OFFSET ${start}\
@@ -141,7 +138,6 @@ module.exports = class Object{
             FROM object \
             LEFT JOIN images \
             ON object.id = images.objectid \
-                AND images.reviewID is null \
             LEFT JOIN objecttag \
             ON object.id = objecttag.objectid\
             LEFT JOIN tag \

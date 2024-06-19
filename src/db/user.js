@@ -82,8 +82,8 @@ module.exports = class User{
             reviewID:reviewID,
         }
         const image = (await db.oneOrNone(
-            "INSERT INTO images (objectid,reviewid) \
-            VALUES(${objectID},${reviewID}) \
+            "INSERT INTO images (objectid) \
+            VALUES(${objectID}) \
             RETURNING id"
         ,params))
         console.log(image);
@@ -201,11 +201,8 @@ module.exports = class User{
         return (await db.any(
             "SELECT\
                 review.*,\
-                ARRAY_AGG(images.id) AS images,\
                 object.name as objectName\
             FROM review \
-            LEFT JOIN images \
-            ON review.id = images.reviewid \
             LEFT JOIN object \
             ON object.id = review.object \
             WHERE review.userid = ${userID} \
