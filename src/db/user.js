@@ -218,6 +218,29 @@ module.exports = class User{
             "
         ,params))
     }
+    static async deleteUser(userID){
+        const params = {
+            userID:userID
+        }
+        return (await db.none(
+            "DELETE FROM users\
+            where users.id = ${userID} \
+            "
+        ,params))
+    }
+    static async deleteUserReview(userID,objectID){
+        const params = {
+            userID:userID,
+            objectID:objectID,
+        }
+        return (await db.none(
+            "DELETE FROM review\
+            WHERE \
+                review.object = ${objectID} \
+                AND \
+                review.userid = ${userID}"
+        ,params))
+    }
     static async getUserReviews(userID,startPos,maxPos){
         const params = {
             userID:userID,

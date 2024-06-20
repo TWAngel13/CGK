@@ -4,6 +4,7 @@ const User = require("../db/user")
 const {isInteger, isString, isArrayOfStrings} = require("../sanityCheck");
 const { InvalidParameters, AlreadyExists, NotExists } = require("../constaints/errorCodes");
 const Object = require("../db/object");
+const { isNumber } = require("tls");
 module.exports = router;
 //http://localhost:3000/signup
 
@@ -57,6 +58,35 @@ router.post("/logout",async function(req,res){
         return;
     }
     await User.logout(userToken);
+    res.status(200).send({ok:"ok"});
+});
+router.post("/delete",async function(req,res){
+    const userToken = String(req.body.token);
+    if(!req.body.token){
+        res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+        return;
+    }
+    const userID = await User.validateToken(userToken)
+    if(!userID){
+        res.status(NotExists.statusCode).send({error:NotExists.error})
+    return;
+    }
+    await User.deleteUser(userID);
+    res.status(200).send({ok:"ok"});
+});
+router.post("/deleteReview",async function(req,res){
+    const userToken = String(req.body.token);
+    const objectID = Number(req.body.objectID);
+    if(!req.body.token && isNumber(objectID)){
+        res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error})
+        return;
+    }
+    const userID = await User.validateToken(userToken)
+    if(!userID){
+        res.status(NotExists.statusCode).send({error:NotExists.error})
+    return;
+    }
+    await User.deleteUserReview(userID,objectID);
     res.status(200).send({ok:"ok"});
 });
 router.post("/createReview",async function(req,res){

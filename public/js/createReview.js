@@ -15,7 +15,7 @@ const objectID = (new URLSearchParams(window.location.search)).get('id');
 const publishButton = document.getElementById("publish-review");
 const objectsDiv = document.getElementById('objects-list-div');
 const textDiv = document.getElementById("text-review");
-
+const deleteReviewButton = document.getElementById("delete-review")
 
 async function init()
 {
@@ -50,6 +50,11 @@ async function init()
         rememberStars(existingReview.rating-1)
         textDiv.value = existingReview.text
         publishButton.textContent = "ИЗМЕНИТЬ ОТЗЫВ"
+        deleteReviewButton.style.display = ""
+        deleteReviewButton.onclick = async () => {
+            await api.deleteReview(token,objectID);
+            window.location.href = './object.html?id=' + objectID;
+        }
     }
     document.getElementById("outer-loader").remove()
     document.getElementById("main-div").style.display = ""

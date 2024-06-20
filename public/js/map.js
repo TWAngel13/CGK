@@ -71,6 +71,10 @@ async function initMap() {
   */
   objectSource.forEach((markerSource) => {
     const marker = new YMapDefaultMarker(markerSource);
+    //выравнивание креста
+    marker._popup.childNodes[1].className = ""
+    marker._popup.childNodes[1].style.background = "#FFFFFF"
+    marker._popup.childNodes[1].style.border = "0px"
     map.addChild(marker);
   });
 

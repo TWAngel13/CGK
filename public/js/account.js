@@ -4,6 +4,7 @@ const username = document.getElementById("username");
 const favourites = document.getElementById("favourites");
 const reviews = document.getElementById("reviews");
 const logoutButton = document.getElementById("logout");
+const deleteAccountButton = document.getElementById("delete-account");
 let userInfo;
 async function init()
 {
@@ -29,6 +30,7 @@ async function init()
     if(userInfo.review[0] != null){
         loadMoreReviews(0,3);
     }
+    deleteAccountButton.onclick = () => {deleteAccount()}
 }
 function createFavourite(object) {
     const url = `${window.location.origin}/object.html?id=${object.id}`;
@@ -46,6 +48,7 @@ function createReview(object,review) {
     var reviewName = document.createElement('a');
     var reviewRating = document.createElement('div');
     var reviewText = document.createElement('div');
+    var reviewTextSub = document.createElement("span")
     for(var j = 0; j < 5; j++)
         {
             var star = document.createElement("span");
@@ -59,8 +62,10 @@ function createReview(object,review) {
             reviewRating.appendChild(star);
             
         }
-    reviewText.className = "text-single-line"
-    reviewText.textContent = review.text;
+    reviewTextSub.textContent = review.text
+    reviewTextSub.className = "text-single-line-overflow"
+    reviewText.className = "text-single-line-expandable"
+    reviewText.appendChild(reviewTextSub)
     reviewDiv.classList.add('review-card');
     reviewDiv.classList.add('review-card-short');
     reviewName.className = "text-single-line"
@@ -72,6 +77,16 @@ function createReview(object,review) {
     reviewDiv.appendChild(reviewNameDiv)
     reviewDiv.appendChild(reviewText);
     return reviewDiv;
+}
+async function deleteAccount(confirm = false){
+    if (confirm){
+        await api.deleteUser(token);
+        localStorage.clear();
+        window.location.href = "/";
+    } else {
+        deleteAccountButton.textContent = "Вы уверены?"
+        deleteAccountButton.onclick = () => {deleteAccount(true)}
+    }
 }
 async function logout(){
     await api.logout(token);

@@ -44,7 +44,7 @@ async function init()
         var reviewName = document.createElement('div');
         var reviewRating = document.createElement('div');
         var reviewText = document.createElement('div');
-
+        var reviewTextSub = document.createElement('span');
         //reviewName.textContent = objectInfo.reviews[i].userid;
         reviewName.textContent = (await api.getUsers()).users.filter((user) => user.id == objectInfo.reviews[i].userid)[0].name;
         for(var j = 0; j < 5; j++)
@@ -64,8 +64,10 @@ async function init()
 
         //reviewRating.textContent = objectInfo.reviews[i].rating;
         if( objectInfo.reviews[i].text) {
-            reviewText.textContent = objectInfo.reviews[i].text
-            reviewText.className = "text-single-line"
+            reviewTextSub.textContent = objectInfo.reviews[i].text
+            reviewTextSub.className = "text-single-line-overflow"
+            reviewText.className = "text-single-line-expandable"
+            reviewText.appendChild(reviewTextSub)
         }
         
 
@@ -76,7 +78,6 @@ async function init()
         reviewDiv.appendChild(reviewText);
 
         document.getElementById('review-container-div').appendChild(reviewDiv);
-        console.log(await api.getObjectsList("драмы"));
     }
     document.getElementById("create-route").onclick = () => {
         window.location.href=`./map.html?lat=${objectInfo.info.x}&long=${objectInfo.info.y}`;

@@ -245,6 +245,41 @@ export async function logout(token){
         console.log(response);
     }
 }
+export async function deleteUser(token){
+    const response = await fetch("/api/auth/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token
+          })
+    });
+    if (response.ok === true)
+    {
+        return await response.json()
+    }
+    else
+    {
+        console.log(response);
+    }
+}
+export async function deleteReview(token,objectID){
+    const response = await fetch("/api/auth/deleteReview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            token:token,
+            objectID:objectID
+          })
+    });
+    if (response.ok === true)
+    {
+        return await response.json()
+    }
+    else
+    {
+        console.log(response);
+    }
+}
 export async function createReview(token,rating,objectID,reviewText = undefined,images = [] || undefined){
     const response = await fetch("/api/auth/createReview", {
         method: "POST",
