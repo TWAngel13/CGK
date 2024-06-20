@@ -61,7 +61,7 @@ body
 
 .recommend-button
 {
-    height: 5vh;
+    min-height: 5vh;
     text-align: center;
     font-size: 28px;
     font-family: "OpenSansEB";
