@@ -1,5 +1,6 @@
 
 import * as api from "./api.js"
+import { notifyError } from "./global/navbar.js";
 import * as objectsCommon from "./objectsCommon.js"
 
 const stars = (() => {
@@ -13,6 +14,8 @@ const token = localStorage.getItem("auth_token");
 const objectID = (new URLSearchParams(window.location.search)).get('id');
 const publishButton = document.getElementById("publish-review");
 const objectsDiv = document.getElementById('objects-list-div');
+const textDiv = document.getElementById("text-review");
+
 
 async function init()
 {
@@ -26,9 +29,9 @@ async function init()
         window.location.href = '/';
         return;
     }
+    const existingReview = await api.getUserReview(localStorage.getItem("user_id"),objectID);
+
     await objectsCommon.showObject(object, object,object.categoryname[0],objectsDiv);
-
-
     for (const _star in stars){
         const star = Number(_star)
         stars[star].onmouseenter = () => {setStars(star)};
@@ -40,8 +43,13 @@ async function init()
         publishButton.className = "object-button-red"
         setTimeout(() => {
             publishButton.className = "object-button"
-            publishButton.textContent = "ОТПРАВИТЬ"
+            publishButton.textContent = existingReview?"ИЗМЕНИТЬ ОТЗЫВ":"ОТПРАВИТЬ"
         },1000)
+    }
+    if (existingReview) {
+        rememberStars(existingReview.rating-1)
+        textDiv.value = existingReview.text
+        publishButton.textContent = "ИЗМЕНИТЬ ОТЗЫВ"
     }
     document.getElementById("outer-loader").remove()
     document.getElementById("main-div").style.display = ""
@@ -59,7 +67,7 @@ async function removeStars(pos,last = 0){
 }
 async function rememberStars(pos = 0){
     publishButton.onclick = async () => {
-        const textDiv = document.getElementById("text-review");
+        
         const text = textDiv.value;
         await api.createReview(token,pos+1,objectID,text);
         window.location.href = './object.html?id=' + objectID;

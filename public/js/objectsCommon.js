@@ -17,14 +17,22 @@ export async function getObjectsOfCategory(category, number = 1)
     position += number;
     return result;
 }
-
+export async function nextObjectOfCategoryExists(category, number = 1)
+{
+    var result = (await api.getObjectsList(undefined, position, number, undefined, category,undefined)).objects
+    return result;
+}
 export async function searchObjects(searchString, number = 1,tags = undefined,optionalTags = undefined)
 {
     var result = (await api.getObjectsList(searchString, position, number, tags, undefined,optionalTags)).objects
     position += number;
     return result;
 }
-
+export async function nextObjectOfSearchExists(searchString, number = 1,tags = undefined,optionalTags = undefined)
+{
+    var result = (await api.getObjectsList(searchString, position, number, tags, undefined,optionalTags)).objects
+    return result;
+}
 export async function showObject(object, objectInfo,cssName,objectsDiv)
 {
 
@@ -48,7 +56,9 @@ export async function showObject(object, objectInfo,cssName,objectsDiv)
         var addressDiv = document.createElement('div');
         var phoneDiv = document.createElement('div');
         addressDiv.textContent = objectInfo.attributes.address;
-        phoneDiv.textContent = objectInfo.attributes.phone.split(',')[0];
+        if(objectInfo.attributes.phone){
+            phoneDiv.textContent = objectInfo.attributes.phone.split(',')[0];
+        } 
         descriptionDiv.appendChild(addressDiv);
         descriptionDiv.appendChild(phoneDiv);
         //descriptionDiv.textContent = objectInfo.attributes.address + objectInfo.attributes.phone;

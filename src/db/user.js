@@ -52,6 +52,27 @@ module.exports = class User{
             GROUP BY users.id \
         ",params))
     }
+    static async getUserReview(userID,objectID){
+        const params = {
+            userID:userID,
+            objectID:objectID,
+        }
+        return (await db.oneOrNone(
+            "SELECT\
+                review.*,\
+                object.name as objectName\
+            FROM review \
+            LEFT JOIN object \
+            ON object.id = review.object \
+            WHERE \
+                review.userid = ${userID}\
+                AND \
+                review.object = ${objectID} \
+            GROUP BY review.id , object.name\
+            ORDER BY review.id \
+            "
+        ,params))
+    }
     static async addFavourites(userID,objectID){
         const params = {
             userID:userID,

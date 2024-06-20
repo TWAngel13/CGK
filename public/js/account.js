@@ -20,6 +20,7 @@ async function init()
     localStorage.setItem("user_favourites",favourites_parsed);
     localStorage.setItem("user_reviews",reviews_parsed)
     localStorage.setItem("user_name",userInfo.name);
+    localStorage.setItem("user_id",userInfo.id);
     logoutButton.onclick = logout;
     username.textContent = userInfo.name;
     if(userInfo.favourites[0] != null){
@@ -59,12 +60,11 @@ function createReview(object,review) {
             
         }
     reviewText.className = "text-single-line"
-    reviewText.textContent = (review.text.length > 64) 
-        ? review.text.slice(0, 64 - 1) 
-        + '...' : review.text;
-    
+    reviewText.textContent = review.text;
     reviewDiv.classList.add('review-card');
     reviewDiv.classList.add('review-card-short');
+    reviewName.className = "text-single-line"
+    reviewNameDiv.className = "text-single-line"
     reviewName.textContent = object.name
     reviewName.href = url;
     reviewNameDiv.appendChild(reviewName);
@@ -80,7 +80,7 @@ async function logout(){
 }
 function showMoreButton(func){
     const button = document.createElement("button");
-    button.className = "btn btn-primary park-load-more-button";
+    button.className = "btn btn-primary w-100 park-load-more-button";
     button.onclick = func;
     button.textContent = "Показать ещё " 
     return button;

@@ -39,6 +39,21 @@ router.get("/id/:id/reviews/",async function(req,res){
             res.status(200).send(result)
     }
 });
+router.get("/id/:id/reviews/:objectID/",async function(req,res){
+    const userID = req.params.id
+    const objectID = req.params.objectID
+    const result = await getReview(userID,objectID)
+    switch(result){
+        case -1:
+            res.status(InvalidParameters.statusCode).send({error:InvalidParameters.error});
+            break;
+        case -2:
+            res.status(NotExists.statusCode).send({error:NotExists.error});
+            break;
+        default:
+            res.status(200).send(result)
+    }
+});
 router.post("/id/:id/favourites/",async function(req,res){
     const token = req.body.token
     const startPos = req.query.start?req.query.start:0
@@ -97,6 +112,22 @@ async function getReviews(_userID,_startPos,_maxSize){
         return NotExists.code;
     }
     return await User.getUserReviews(userID,startPos,maxSize);
+}
+async function getReview(_userID,_objectID){
+    const userID = Number(_userID)
+    const objectID = Number(_objectID)
+    if(!isInteger(userID) || !isInteger(objectID) ){
+        return InvalidParameters.code
+    }
+    if(!await User.exists(userID)){
+        return NotExists.code;
+    }
+    const review =  await User.getUserReview(userID,objectID);
+    if (review == null){
+        return NotExists.code
+    } else {
+        return review;
+    }
 }
 async function getFavourites(_token,_startPos,_maxSize){
     const token = _token;

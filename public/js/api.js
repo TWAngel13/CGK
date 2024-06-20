@@ -115,6 +115,20 @@ export async function getUserReviews(id,startPosReviews=undefined,maxReviews=und
         console.log(response);
     }
 }
+export async function getUserReview(id,objectID) {
+    const response = await fetch(`/api/users/id/${id}/reviews/${objectID}`, {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true)
+    {
+        return await response.json();
+    }
+    else
+    {
+        console.log(response);
+    }
+}
 export async function getUserFavourites(id,token,startPosReviews=undefined,maxReviews=undefined) {
     const params = [startPosReviews,maxReviews];
     const paramsName = ["start","max"];

@@ -1,11 +1,13 @@
 import * as api from "./api.js"
 import * as objectsCommon from "./objectsCommon.js"
-
+const longitude = Number((new URLSearchParams(window.location.search)).get('lat'));
+const latitude = Number((new URLSearchParams(window.location.search)).get('long'));
 //var myMap;
 // Дождёмся загрузки API и готовности DOM.
 
 async function initMap() {
   await ymaps3.ready;
+  
   const {YMapDefaultMarker} = await ymaps3.import('@yandex/ymaps3-markers@0.0.1');
 
   const {YMap, YMapDefaultSchemeLayer, YMapMarker, YMapFeatureDataSource, YMapDefaultFeaturesLayer} = ymaps3;
@@ -14,8 +16,8 @@ async function initMap() {
       document.getElementById('map'),
       {
           location: {
-              center: [61.379045, 55.158188],
-              zoom: 10
+              center: (latitude && longitude)?[latitude,longitude]:[61.4013233,55.1582921],
+              zoom: (latitude && longitude)?17:13
           }
       },
       [
@@ -42,8 +44,6 @@ async function initMap() {
       popup: {content: `<a href = "object.html?id=${object.id}">${object.name}</a>`, position: 'left'}
     }
   })
-  console.log(objectSource);
-
   const markersGeoJsonSource = [
     {
       coordinates: [61.402554, 55.159897],
@@ -75,6 +75,5 @@ async function initMap() {
   });
 
 }
-
 
 initMap();

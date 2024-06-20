@@ -18,9 +18,12 @@ export async function notifyError(message,closeAfter = 2500){
         clearTimeout(errorMessage.timeout);
     }
     errorMessage.style.display = "";
-    errorMessage.timeout = setTimeout(()=>{
-        errorMessage.style.display = "none";
-    },closeAfter);
+    if (closeAfter >= 0){
+        errorMessage.timeout = setTimeout(()=>{
+            errorMessage.style.display = "none";
+        },closeAfter);
+    }
+    
 }
 
 init();

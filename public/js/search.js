@@ -22,6 +22,9 @@ async function init()
 async function loadMore(search,tags,optionalTags)
 {
     var loadedObjects = (await objectsCommon.searchObjects(search,2,tags,optionalTags));
+    if (!(await objectsCommon.nextObjectOfSearchExists(search,2,tags,optionalTags))){
+        document.getElementById("load-more-button").remove()
+    }
     if(loadedObjects)
     {
         for(const object of loadedObjects)
@@ -32,6 +35,7 @@ async function loadMore(search,tags,optionalTags)
     }
     else
     {
+        document.getElementById("load-more-button").remove()
         console.log("Out of objects");
     }
 }

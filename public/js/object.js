@@ -63,9 +63,11 @@ async function init()
         }
 
         //reviewRating.textContent = objectInfo.reviews[i].rating;
-        reviewText.textContent = (objectInfo.reviews[i].text.length > 64) 
-            ? objectInfo.reviews[i].text.slice(0, 64 - 1) 
-            + '...' : objectInfo.reviews[i].text;
+        if( objectInfo.reviews[i].text) {
+            reviewText.textContent = objectInfo.reviews[i].text
+            reviewText.className = "text-single-line"
+        }
+        
 
         reviewDiv.classList.add('review-card');
 
@@ -75,6 +77,9 @@ async function init()
 
         document.getElementById('review-container-div').appendChild(reviewDiv);
         console.log(await api.getObjectsList("драмы"));
+    }
+    document.getElementById("create-route").onclick = () => {
+        window.location.href=`./map.html?lat=${objectInfo.info.x}&long=${objectInfo.info.y}`;
     }
     document.getElementById("outer-loader").remove()
     document.getElementById("main-div").style.display = ""

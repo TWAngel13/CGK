@@ -5,6 +5,9 @@ var objectsDiv = document.getElementById('objects-list-div');
 async function loadMore()
 {
     var loadedObjects = (await objectsCommon.getObjectsOfCategory("entertainment", 3));
+    if (!(await objectsCommon.nextObjectOfCategoryExists("entertainment"))){
+        document.getElementById("load-more-button").remove()
+    }
     if(loadedObjects)
     {
         for(const object of loadedObjects)
@@ -15,6 +18,7 @@ async function loadMore()
     }
     else
     {
+        
         console.log("Out of objects");
     }
 }

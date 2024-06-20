@@ -14,7 +14,11 @@ async function getRecommendations(){
     const optionalTags = [];
     let i = 0;
     while (form[`required${i}`] !== undefined){
-        console.log(form[`required${i}`].value)
+        if (form[`required${i}`].value == ""){
+            errorText.children[0].textContent = "Не все поля заполнены";
+            errorText.style = ""
+            return;
+        }
         const parsed = JSON.parse(form[`required${i}`].value);
         if(Array.isArray(parsed)) {
             tags = [...tags,...parsed];
@@ -25,6 +29,11 @@ async function getRecommendations(){
     }
     i = 0;
     while (form[`optional${i}`] !== undefined){
+        if (form[`optional${i}`].value == ""){
+            errorText.children[0].textContent = "Не все поля заполнены";
+            errorText.style = ""
+            return;
+        }
         const parsed = JSON.parse(form[`optional${i}`].value);
         if(Array.isArray(parsed)) {
             optionalTags.push(parsed)
