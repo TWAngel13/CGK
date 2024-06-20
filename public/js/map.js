@@ -39,7 +39,7 @@ async function initMap() {
     return {coordinates: [object.y, object.x], 
       title: object.name,
       color: colors[object.category],
-      popup: {content: `<a href = "object.html?id=${object.id}">Страница объекта</a>`, position: 'left'}
+      popup: {content: `<a href = "object.html?id=${object.id}">${object.name}</a>`, position: 'left'}
     }
   })
   console.log(objectSource);

@@ -32,3 +32,4 @@ document.getElementById("load-more-button").addEventListener('click', () =>
 {
     loadMore();
 })
+loadMore();

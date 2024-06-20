@@ -2,7 +2,6 @@ import * as api from "./api.js"
 import * as objectsCommon from "./objectsCommon.js"
 
 var objectsDiv = document.getElementById('objects-list-div');
-
 async function loadMore()
 {
     var loadedObjects = (await objectsCommon.getObjectsOfCategory("park", 2));
@@ -25,3 +24,4 @@ document.getElementById("load-more-button").addEventListener('click', () =>
 {
     loadMore();
 })
+loadMore();
