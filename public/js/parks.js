@@ -4,7 +4,7 @@ import * as objectsCommon from "./objectsCommon.js"
 var objectsDiv = document.getElementById('objects-list-div');
 async function loadMore()
 {
-    var loadedObjects = (await objectsCommon.getObjectsOfCategory("park", 2));
+    var loadedObjects = (await objectsCommon.getObjectsOfCategory("park", 3));
     if(loadedObjects)
     {
         for(const object of loadedObjects)

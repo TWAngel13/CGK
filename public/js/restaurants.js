@@ -5,7 +5,7 @@ var objectsDiv = document.getElementById('objects-list-div');
 
 async function loadMore()
 {
-    var loadedObjects = (await objectsCommon.getObjectsOfCategory("restaurant", 1));
+    var loadedObjects = (await objectsCommon.getObjectsOfCategory("restaurant", 3));
     if(loadedObjects)
     {
         for(const object of loadedObjects)
