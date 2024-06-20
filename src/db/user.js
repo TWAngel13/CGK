@@ -1,5 +1,6 @@
 const { AlreadyExists, NotExists, AccessDenied } = require('../constaints/errorCodes')
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const pgp = require('pg-promise')(/* options */)
 const db = (() => {
     const os = process.platform;
@@ -118,17 +119,20 @@ module.exports = class User{
         const loginedUser = await db.oneOrNone(
         "SELECT\
             users.id,\
-            users.email\
+            users.email,\
+            users.password \
         FROM users \
         WHERE \
             users.email = ${email} \
-            AND\
-            users.password = ${password} \
         "
         ,params)
         if(!loginedUser){
             return NotExists.code
         }
+        if (!(await bcrypt.compare(password,loginedUser.password))){
+            return NotExists.code
+        };
+        delete loginedUser.password;
         const generatedToken = loginedUser.id+this.#generate_token(256)
         const params2 = {
             token: generatedToken,
@@ -159,6 +163,7 @@ module.exports = class User{
                 email:email,
                 password:password
             }
+            params.password = await bcrypt.hash(params.password,saltRounds);
             await db.none(
                 "INSERT INTO users (name,email,password) \
                 VALUES (${name},${email},${password}) \
